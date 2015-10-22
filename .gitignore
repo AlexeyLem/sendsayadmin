@@ -1,0 +1,8 @@
+npm-debug.log
+.idea/
+.DS_Store
+/public
+node_modules/
+/reporters
+
+/autotests/tests/_output/*

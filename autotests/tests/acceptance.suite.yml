@@ -1,0 +1,62 @@
+# Codeception Test Suite Configuration
+
+# suite for acceptance tests.
+# perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver
+        - AcceptanceHelper
+        - TariffsHelper
+
+    config:
+        WebDriver:
+            url: 'http://localhost:8080/'
+            browser: 'phantomjs'
+            window_size: '1920x1080'
+            capabilities:
+                webStorageEnabled: true
+                applicationCacheEnabled: true
+                phantomjs.cli.args: ['--ignore-ssl-errors=yes']
+
+
+env:
+    firefox:
+        modules:
+            config:
+                WebDriver:
+                    browser: 'firefox'
+                    window_size: 'maximize'
+
+    chrome:
+            modules:
+                config:
+                    WebDriver:
+                        browser: 'chrome'
+                        window_size: 'maximize'
+
+    docker_chrome:
+            modules:
+                config:
+                    WebDriver:
+                        url: 'http://10.1.3.100:8080/'
+                        browser: 'chrome'
+                        window_size: 'maximize'
+
+    docker_firefox:
+            modules:
+                config:
+                    WebDriver:
+                        url: 'http://10.1.3.100:8080/'
+                        browser: 'firefox'
+                        window_size: 'maximize'
+
+groups:
+    common: [tests/acceptance/common/account,tests/acceptance/common/mailings,tests/acceptance/common/subscribers,tests/acceptance/common/track]
+    stat: [tests/acceptance/common/statistics]
+    blockEditor: [tests/acceptance/common/blockEditor]
+    individual: [tests/acceptance/individual]
+    paid: [tests/acceptance/paid]
+    free: [tests/acceptance/free]

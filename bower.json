@@ -1,0 +1,23 @@
+{
+  "name": "SendsayManagePanel",
+  "description": "A starter project for Sendsay Manage Panel",
+  "version": "0.0.1",
+  "homepage": "https://github.com/AlexeyLem/myfirst.git",
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+  
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    
+    "jquery": "^2.1.3",
+    "lodash": "^3.5.0",
+    "moment": "~2.10.3",
+    "requirejs": "^2.1.16",
+    
+    "html5-boilerplate": "~5.2.0"
+  }
+}
