@@ -1,4 +1,4 @@
 require.config({
-    baseUrl: '/base/app/',
+    baseUrl: '/app/',
     urlArgs: ''
 });

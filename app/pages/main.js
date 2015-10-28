@@ -1,20 +1,11 @@
 'use strict';
 
-angular.module('App.main', ['ngRoute'])
+var adminCtrls = angular.module('adminCtrls', []);
 
-.config(['$routeProvider', '$location', '$http', function($routeProvider, $location, $http) {
-    $routeProvider.when('/', {
-        templateUrl: 'pages/main.html',
-        controller: 'MainCtrl'
-    });
-}])
-
-.controller('MainCtrl', [function() {
+adminCtrls.controller('MainCtrl', ['$scope', '$http', function() {
 
     $http.get('sumstat.json').success(function() {
-        
+        $log.debug(data[0]);
     });
-    
-    
     
 }]);

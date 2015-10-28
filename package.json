@@ -6,7 +6,7 @@
   "repository": "https://github.com/AlexeyLem/sendsayadmin.git",
   "license": "MIT",
   "scripts": {
-    "start": "ln -snf ./app/ public && grunt connect",
+    "start": "grunt connect",
     "test": "karma start ./tools/karma.conf.js --single-run",
     "build": "grunt build",
     "jscs": "jscs ./src/blocks ./src/kit ./src/pages ./src/resources ./src/routes ./src/*.js  --config .jscsrc"
