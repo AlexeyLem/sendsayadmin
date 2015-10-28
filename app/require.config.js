@@ -1,13 +1,13 @@
 require.config({
     baseUrl: '/',
     paths: {
-        'jquery': 'bower_components/jquery/dist/jquery.min',
-        'i18n': 'bower_components/i18n/i18n',
-        'highcharts': 'bower_components/highcharts/modules/no-data-to-display',
-        'highcharts-module': 'bower_components/highcharts/highcharts',
-        'moment': 'bower_components/moment/moment',
-        'jquery-ui': 'bower_components/jquery-ui-1.11.4.custom/jquery-ui',
-        'zeroclipboard': 'bower_components/zeroclipboard/dist/ZeroClipboard'
+        'jquery': 'libs/jquery/dist/jquery.min',
+        'i18n': 'libs/i18n/i18n',
+        'highcharts': 'libs/highcharts/modules/no-data-to-display',
+        'highcharts-module': 'libs/highcharts/highcharts',
+        'moment': 'libs/moment/moment',
+        'jquery-ui': 'libs/jquery-ui-1.11.4.custom/jquery-ui',
+        'zeroclipboard': 'libs/zeroclipboard/dist/ZeroClipboard'
     },
     map: {
         '*': {
