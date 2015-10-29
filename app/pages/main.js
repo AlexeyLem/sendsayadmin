@@ -1,11 +1,15 @@
 'use strict';
 
-var adminCtrls = angular.module('adminCtrls', []);
+angular.module('webapp.MainCtrl', [])
 
-adminCtrls.controller('MainCtrl', ['$scope', '$http', function() {
+.config(['$routeProvider', function($routeProvider) {
+
+}])
+
+.controller('MainCtrl', ['$scope', '$recourse', '$log', function() {
 
     $http.get('sumstat.json').success(function() {
-        $log.debug(data[0]);
+        _log(data[0]);
     });
     
 }]);

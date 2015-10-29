@@ -1,31 +1,47 @@
 require.config({
+    
     baseUrl: '/',
+    
     paths: {
-        'jquery': 'libs/jquery/dist/jquery.min',
-        'i18n': 'libs/i18n/i18n',
-        'highcharts': 'libs/highcharts/modules/no-data-to-display',
-        'highcharts-module': 'libs/highcharts/highcharts',
-        'moment': 'libs/moment/moment',
-        'jquery-ui': 'libs/jquery-ui-1.11.4.custom/jquery-ui',
-        'zeroclipboard': 'libs/zeroclipboard/dist/ZeroClipboard'
+        'angular': './libs/angular/angular',
+        'angular-route': './libs/angular-route/angular-route',
+        'angularAMD': './libs/angularAMD/angularAMD',
+        'jquery': './libs/jquery/dist/jquery.min'
     },
-    map: {
-        '*': {
-            'svg': 'components/svgLoader/svgLoader',
-            'lodash': 'bower_components/lodash/lodash',
-        }
-    },
+  
     shim: {
-        'highcharts': {
-            'exports': 'Highcharts',
-            'deps': ['highcharts-module']
-        }
+        'angular' : {'exports' : 'angular'},
+        'angularAMD': ['angular'],
+        'angular-route': ['angular']
     },
-    config: {
-        i18n: {
-            locale: 'en-us'
-        }
-    },
+    // kick start application
+    // deps: ['angular', 'app'],
+    	priority: [
+        "angular"
+    ],
     urlArgs: 'version=' + Date.now(),
-    waitSeconds: 20
+    
+    waitSeconds: 5
 });
+
+require([ 'angular', 'app' ], function(angular, app) {
+        /*
+        var $html = angular.element(document.getElementsByTagName('html')[0]);
+        angular.element().ready(function() {
+            // bootstrap the app manually
+            angular.bootstrap(document, ['app']);
+        });
+        */
+    }
+);
+
+function _log() {
+    var m = arguments.length;
+    for (var i = 0; i < m; i += 1) {
+        if (typeof arguments[i] == 'object') {
+            console.dir(arguments[i]);
+        } else {
+            console.log(arguments[i]);
+        }
+    }
+}
