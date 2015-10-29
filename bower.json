@@ -17,6 +17,7 @@
     "angular-bootstrap": "~0.14.3",
     "bootstrap": "~3.3.5",
     "angular-cookies": "~1.4.7",
-    "angularAMD": "~0.2.1"
+    "angularAMD": "~0.2.1",
+    "angular-ui-router": "~0.2.15"
   }
 }

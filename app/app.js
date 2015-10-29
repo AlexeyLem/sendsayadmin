@@ -2,18 +2,20 @@
 define(['angularAMD', 'angular-route'], function (angularAMD) {
     var app = angular.module("app", ['ngRoute']);
     
-    app.config(function ($routeProvider) {
-    
+    app.config(['$routeProvider','$locationProvider', function ($routeProvider, $locationProvider) {
+      
       $routeProvider
           .when("/home", angularAMD.route({
-              templateUrl: 'pages/home/index.html',
+              templateUrl: 'pages/index.html',
               controller: 'HomeCtrl',
               controllerUrl: 'pages/home/index'
           }))
           .otherwise({redirectTo: "/home"});
-    });
+        
+        $locationProvider.html5Mode(true);
+    }]);
 
-    app.controller('MainCtrl', ['$scope', '$routeProvider', function($scope, $routeProvider) {
+    app.controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
         
         _log('MainCtrl ...');
         

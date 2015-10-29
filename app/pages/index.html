@@ -9,8 +9,8 @@
 														<div class="input-group-btn">
 																<button type="button" class="btn btn-default">Найти</button>
 																<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>chrights</span> <span class="caret"></span></button>
-																<ul class="dropdown-menu dropdown-menu-right" ng-repeat="action in searchlist">
-																		<li><a href="{{action.code}}">{{action.name}}</a></li>
+																<ul class="dropdown-menu dropdown-menu-right">
+																		<li ng-repeat="item in searchlist"><a href="{{item.code}}">{{item.name}}</a></li>
 																</ul>
 														</div>
 												</div>
@@ -20,3 +20,5 @@
 								</div>
 				</div>
 </div>
+<div ng-include="sectionTemplate"></div>
+<div>А это футер</div>
