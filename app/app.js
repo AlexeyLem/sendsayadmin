@@ -1,43 +1,86 @@
 'use strict';
-define(['angularAMD', 'angular-route'], function (angularAMD) {
-    var app = angular.module("app", ['ngRoute']);
-    
-    app.config(['$routeProvider','$locationProvider', function ($routeProvider, $locationProvider) {
-      
-      $routeProvider
-          .when("/home", angularAMD.route({
-              templateUrl: 'pages/index.html',
-              controller: 'HomeCtrl',
-              controllerUrl: 'pages/home/index'
-          }))
-          .otherwise({redirectTo: "/home"});
+
+function _log() {
+    var m = arguments.length;
+    for (var i = 0; i < m; i += 1) {
+        if (typeof arguments[i] == 'object') {
+            console.dir(arguments[i]);
+        } else {
+            console.log(arguments[i]);
+        }
+    }
+}
+
+angular.module("app", [ 'app.sumstat', 'ui.router' ])
+
+.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    '$locationProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+        $stateProvider
+            .state("sumstat", {
+                url: '/sumstat',
+                views: {
+                    content: {
+                        templateUrl: 'pages/sumstat/index.html',
+                        controller: 'SumstatCtrl'
+                    }
+                }
+                
+            });
+        
+        _log('Kuku bla');
+        
+        $urlRouterProvider.otherwise("sumstat");
         
         $locationProvider.html5Mode(true);
-    }]);
+}])
 
-    app.controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
+.controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
+    
+    _log('MainCtrl ...');
         
-        _log('MainCtrl ...');
-        
-        $scope.title = "MyFirst Page in Angular";
-        $scope.defaultSearchSection = 0;
-        $scope.searchlist = [
-            {
-                'name': 'chrights',
-                'code': 'chrights'
-            },
-            {
-                'name': 'Defer',
-                'code': 'defer'
-            },
-            {
-                'name': 'Chenv',
-                'code': 'chenv'
-            }
-            ];
-        
+    $scope.title = "MyFirst Page in Angular";
+    
+    $scope.mainMenu = [
+        {
+            name: 'Sumstat',
+            path: '/sumstat'
+        },
+        {
+            name: 'Devilstat',
+            path: '/delivstat'
+        },
+        {
+            name: 'Payment',
+            path: '/payment'
+        },
+        {
+            name: 'Tarif',
+            path: '/tarif'
+        },
+        {
+            name: 'Sending',
+            path: '/sending'
         }
-    ]);
-  
-    return angularAMD.bootstrap(app);
-});
+    ];
+    
+    $scope.defaultSearchSection = 0;
+    $scope.searchlist = [
+        {
+            'name': 'chrights',
+            'code': 'chrights'
+        },
+        {
+            'name': 'Defer',
+            'code': 'defer'
+        },
+        {
+            'name': 'Chenv',
+            'code': 'chenv'
+        }
+    ];
+    
+}]);

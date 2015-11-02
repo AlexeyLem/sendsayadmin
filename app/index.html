@@ -1,34 +1,58 @@
 <!DOCTYPE html>
-<html lang="ru" >
+<html lang="ru" ng-app="app" ng-controller="MainCtrl">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title ng-bind="title"></title>
-  <meta name="description" content="">
-		<base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="app.css">
-		<script src="libs/jquery/dist/jquery.min.js"></script>
-  <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>		
-		<script data-main="require.config.js" src="libs/requirejs/require.js"></script>
+				<meta charset="utf-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<title ng-bind="title">Sendsay Admin</title>
+				<meta name="description" content="">
+				<base href="/">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				
+				<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
+				<link rel="stylesheet" href="app.css">
+				
+				<script src="libs/jquery/dist/jquery.min.js"></script>
+				<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+				<script src="libs/angular/angular.js"></script>
+				<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+				
+				<script src="app.js"></script>
+				<script src="pages/sumstat/index.js"></script>
 </head>
 
 <body ng-cloak>
-  <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-<div ng-view></div>
-		
-		
-<!--
-<script src="libs/angular/angular.js"></script>
-<script src="libs/angular-route/angular-route.js"></script>
-<script src="libs/angular-cookies/angular-cookies.js"></script>
-
-<script src="app.js"></script>
-<script src="pages/main.js"></script>
--->
-		
-</body>
+				<!--[if lt IE 8]>
+								<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+				<![endif]-->
+				<div class="ui-top">
+								<div class="row">
+												<div class="col-xs-5 inline">
+																<div style="float: left;">
+																				<h2 class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-top: 0px; margin-bottom: 0px; margin-left: 10px;"></h2>
+																</div>
+																<div class="input-group" style="margin-left: 60px;">												
+																		<input type="text" class="form-control" aria-label="" placeholder="Аккаунт">
+																		<div class="input-group-btn">
+																				<button type="button" class="btn btn-default">Найти</button>
+																				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>chrights</span> <span class="caret"></span></button>
+																				<ul class="dropdown-menu dropdown-menu-right">
+																						<li ng-repeat="item in searchlist"><a href="{{item.code}}">{{item.name}}</a></li>
+																				</ul>
+																		</div>
+																</div>
+												</div>
+												<div class="col-xs-7 inline">
+															<h5><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Выбранные аккаунты</h5>
+												</div>
+								</div>
+				</div>
+				<div class="ui-main-nav">
+								<ul>
+												<li ng-repeat="item in mainMenu"><a ui-sref="{{item.path}}">{{item.name}}</a></li>
+								</ul>
+				</div>
+				<div class="ui-main-conteiner">
+								<div ng-view="content"></div>
+				</div>
+				</body>
 </html>

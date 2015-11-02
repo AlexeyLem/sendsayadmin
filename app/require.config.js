@@ -5,14 +5,16 @@ require.config({
     paths: {
         'angular': './libs/angular/angular',
         'angular-route': './libs/angular-route/angular-route',
+        'uiRouter': './libs/angular-ui-router/release/angular-ui-router',
         'angularAMD': './libs/angularAMD/angularAMD',
         'jquery': './libs/jquery/dist/jquery.min'
     },
   
     shim: {
-        'angular' : {'exports' : 'angular'},
-        'angularAMD': ['angular'],
-        'angular-route': ['angular']
+        'angular' : ['angular'],
+        'angularAMD': ['angularAMD'],
+        'angular-route': ['angular'],
+        'uiRoute': ['angular']
     },
     // kick start application
     // deps: ['angular', 'app'],
@@ -25,13 +27,12 @@ require.config({
 });
 
 require([ 'angular', 'app' ], function(angular, app) {
-        /*
         var $html = angular.element(document.getElementsByTagName('html')[0]);
         angular.element().ready(function() {
             // bootstrap the app manually
             angular.bootstrap(document, ['app']);
         });
-        */
+
     }
 );
 
