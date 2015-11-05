@@ -17,7 +17,7 @@ angular.module("app", [ 'sumstat', 'ui.router' ])
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    function ($stateProvider, $urlRouterProvider, $locationProvider, $rootScope) {
 
         $stateProvider
             .state("sumstat", {
@@ -47,15 +47,14 @@ angular.module("app", [ 'sumstat', 'ui.router' ])
         $locationProvider.html5Mode(true);
 }])
 
-.controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
+.controller('MainCtrl', ['$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
+    $rootScope.favorites = {};
     $scope.title = "MyFirst Page in Angular";
 }])
 
 .controller('NavogationCtrl', ['$scope', '$location', function($scope, $location) {
     
     _log('MainCtrl ...');
-        
-    
     
     $scope.mainMenu = [
         {

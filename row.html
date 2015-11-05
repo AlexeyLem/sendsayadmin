@@ -1,0 +1,124 @@
+[FELIS IF=LITE for=if]
+[FELIS IF=fid name=managerSale for=eq val=]
+[FELIS IF=fid name=tarif for=ne val=F]
+[FELIS obj=#exit]
+[FELIS ENDIF]
+[FELIS ENDIF]
+[FELIS ENDIF]
+
+[FELIS IF=fid name=ID for=eq val=asp
+       IF_=fid name_=ID for_=eq val_=demo
+       IF__=fid name__=ID for__=eq val_=demorw
+       ]
+[FELIS obj=#exit]
+[FELIS ENDIF]
+[FELIS IF=fid  name=INTESTING for=if
+       IF_=fid name_=BLOCKED  for_=if
+       IF__=fid name__=BLOCKEDISSUE  for__=if
+       ]
+[FELIS obj=#setarg name=bgcolor val=#D5D6D7]
+[FELIS ELSE]
+[FELIS obj=#setarg name=bgcolor val=white]
+[FELIS ENDIF]
+<TR>
+<TD bgcolor="[FELIS name=bgcolor]">[FELIS name=fid.N]</TD>
+<TD bgcolor="white">[FELIS name=fid val=DOMAIN]</TD>
+<TD bgcolor="white">[FELIS name=fid val=CURATOR]</TD>
+<TD bgcolor="white">[FELIS name=fid val=managerAccount]</TD>
+<TD bgcolor="white">[FELIS name=fid val=managerSale]</TD>
+<TD bgcolor="white">[FELIS obj=#setarg name=TARIF from=fid val=tarif][FELIS obj=#include name=include/tarif]</TD>
+<TD bgcolor="white">[FELIS name=fid val=paseDst]</TD>
+<TD bgcolor="white">[FELIS IF=fid name=INTESTING for=if]Тестируется[FELIS ENDIF] [FELIS IF=fid name=BLOCKED for=if]Заблокирован[FELIS ENDIF] [FELIS IF=fid name=BLOCKEDISSUE for=if]Нет&nbsp;оплаты[FELIS ENDIF]</TD>
+<TD bgcolor="white">[FELIS name=fid val=ID]</TD>
+<TD bgcolor="white">[FELIS name=fid val=TITLE]</TD>
+
+<TD bgcolor="white"><A HREF="mailto:[FELIS name=fid val=ownerEmail]">[FELIS name=fid val=ownerEmail]</A></TD>
+
+<TD bgcolor="white">[FELIS name=fid val=_personal_usage] из [FELIS name=fid val=_personal_limit]</TD> 
+<TD bgcolor="white">[FELIS name=fid val=_invite_usage] из [FELIS name=fid val=_invite_limit]</TD> 
+<TD bgcolor="white">[FELIS name=fid val=_unconfirm_usage] из [FELIS name=fid val=_unconfirm_limit]</TD> 
+
+<TD bgcolor="white">[FELIS name=fid val=IssueDate]</TD>
+
+<TD bgcolor="#E1ECF3">[FELIS name=fid val=members_email format=3bydot]
+[FELIS IF=fid name=members_email_over for=> val=1]
+<FONT COLOR=red>
+<BR>[FELIS name=fid val=members_email_over]
+[FELIS IF=fid name=members_email_overcost for=> val=1]
+/ [FELIS name=fid val=members_email_overcost]
+[FELIS ENDIF]
+</FONT>
+[FELIS ENDIF]
+</TD>
+<TD bgcolor="#E1ECF3">[FELIS IF=fid name=traf_0_raz_email for=! val=0][FELIS name=fid val=traf_0_raz_email format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_0_tiraj_email format=3bydot][FELIS ENDIF]</TD>
+<TD bgcolor="#E1ECF3">
+[FELIS IF=fid name=traf_1_raz_email for=! val=0]
+[FELIS name=fid val=traf_1_month]
+<BR>
+[FELIS name=fid val=traf_1_raz_email format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_1_tiraj_email format=3bydot]
+[FELIS IF=fid name=traf_1_over_email for=> val=1]
+<FONT COLOR=red>
+<BR>[FELIS name=fid val=traf_1_over_email format=3bydot]
+[FELIS IF=fid name=traf_1_overcost_email for=> val=1]
+/ [FELIS name=fid val=traf_1_overcost_email format=3bydot]
+[FELIS ENDIF]
+</FONT>
+[FELIS ENDIF]
+[FELIS ENDIF]
+</TD>
+<TD bgcolor="#E1ECF3">
+[FELIS IF=fid name=traf_2_raz_email for=! val=0]
+[FELIS name=fid val=traf_2_month]
+<BR>
+[FELIS name=fid val=traf_2_raz_email format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_2_tiraj_email format=3bydot]
+[FELIS IF=fid name=traf_2_over_email for=> val=1]
+<FONT COLOR=red>
+<BR>[FELIS name=fid val=traf_2_over_email format=3bydot]
+[FELIS IF=fid name=traf_2_overcost_email for=> val=1]
+/ [FELIS name=fid val=traf_2_overcost_email format=3bydot]
+[FELIS ENDIF]
+</FONT>
+[FELIS ENDIF]
+[FELIS ENDIF]
+</TD>
+<TD bgcolor="#E1ECF3">
+[FELIS IF=fid name=traf_3_raz_email for=! val=0]
+[FELIS name=fid val=traf_3_month]
+<BR>
+[FELIS name=fid val=traf_3_raz_email format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_3_tiraj_email format=3bydot]
+[FELIS IF=fid name=traf_3_over_email for=> val=1]
+<FONT COLOR=red>
+<BR>[FELIS name=fid val=traf_3_over_email format=3bydot]
+[FELIS IF=fid name=traf_3_overcost_email for=> val=1]
+/ [FELIS name=fid val=traf_3_overcost_email format=3bydot]
+[FELIS ENDIF]
+</FONT>
+[FELIS ENDIF]
+[FELIS ENDIF]
+</TD>
+
+<TD bgcolor="#E0F6C4" [FELIS IF=fid name=members_sms for=! val=0]align="center"[FELIS ENDIF]>[FELIS name=fid val=members_sms format=3bydot]
+<TD bgcolor="#E0F6C4">[FELIS IF=fid name=traf_0_raz_sms for=! val=0][FELIS name=fid val=traf_0_raz_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_0_tiraj_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_0_traf_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_0_cost_sms format=3bydot2][FELIS ENDIF]</TD>
+<TD bgcolor="#E0F6C4">
+[FELIS IF=fid name=traf_1_raz_sms for=! val=0]
+[FELIS name=fid val=traf_1_month]
+<BR>
+[FELIS name=fid val=traf_1_raz_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_1_tiraj_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_1_traf_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_1_cost_sms format=3bydot2]
+[FELIS ENDIF]
+</TD>
+<TD bgcolor="#E0F6C4">
+[FELIS IF=fid name=traf_2_raz_sms for=! val=0]
+[FELIS name=fid val=traf_2_month]
+<BR>
+[FELIS name=fid val=traf_2_raz_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_2_tiraj_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_2_traf_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_2_cost_sms format=3bydot2]
+[FELIS ENDIF]
+</TD>
+<TD bgcolor="#E0F6C4">
+[FELIS IF=fid name=traf_3_raz_sms for=! val=0]
+[FELIS name=fid val=traf_3_month]
+<BR>
+[FELIS name=fid val=traf_3_raz_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_3_tiraj_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_3_traf_sms format=3bydot]&nbsp;/&nbsp;[FELIS name=fid val=traf_3_cost_sms format=3bydot2]
+[FELIS ENDIF]
+</TD>
+
+</TR>
