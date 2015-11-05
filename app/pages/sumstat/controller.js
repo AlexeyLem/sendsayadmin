@@ -1,36 +1,35 @@
 'use strict';
 
-angular.module('sumstat', [ 'ui.router', 'app' ])
+angular.module('sumstat', [ 'ui.router',  'ui.bootstrap', 'app', 'ngStorage' ])
 
 .controller('SumstatCtrl', [
     '$scope',
+    '$rootScope',
     '$http',
     '$stateParams',
-    function ($scope, $http, $stateParams) {
-        $scope.message = "Message from HomeCtrl";
-        // _log('sumstat Module:SumstatCtrl Controller');
-        $http.get('sumstat.json').success(function(data) {
+    '$location',
+    function ($scope, $rootScope, $http, $stateParams, $location) {
+        
+        _log('sumstat Module:SumstatCtrl Controller', $location.search());
+        
+        var prepareData = function() {
+            $scope.usersShow = $rootScope.users.slice(0,20);
+            $scope.userCount = $rootScope.users.length;
+            $scope.usersShow = $rootScope.users.slice(0,20);    
+        };;
+        
+        $scope.addToFavorites = function(id) {
+            $rootScope.$broadcast('addToFavorites', { 'ID': id });
+        };
+        
+        $scope.changePageNum = function() {
             
-            _log(data[0]);
-            
-            $scope.users = data;
-            $scope.activeUsers = [];
-            $scope.blockedUsers = [];
-            $scope.usersShow = $scope.users.slice(0,10);
-            
-            $.each($scope.users, function(index, user) {
-                if (user.BLOCKED=="0") {
-                    $scope.blockedUsers.push(user.ID);
-                }else{
-                    $scope.activeUsers.push(user.ID);
-                }
-            });
-            
-            $scope.addToFavorites = function(id) {
-                _log('Add to Favorites: '+id);
-            };
-            
-            $scope.page = $stateParams.page;
-        });
+        };
+        
+        $scope.page = $stateParams.page || 1;
+        
+        $rootScope.$on('changeUserList', prepareData);
+
+        prepareData();
     }
 ]);

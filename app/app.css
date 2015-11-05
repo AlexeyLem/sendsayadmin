@@ -47,31 +47,26 @@ body {
     z-index: 10;
     top: 0; left: 0; bottom: 0; right: 0;
 }
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+
+
+.grid-row:not(:last-child) {
+  margin-bottom: 10px;
 }
 
-.menu:before {
-  content: "[";
+.grid-row:before,
+.grid-row:after {
+  display: table;
+  content: " ";
 }
 
-.menu:after {
-  content: "]";
+.grid-row:after {
+  clear: both;
 }
 
-.menu > li {
-  display: inline;
+* .glyphicon.yellow {
+    color: green;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+* .glyphicon.default {
+    color: gray;
 }

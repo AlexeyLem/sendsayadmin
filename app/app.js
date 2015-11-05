@@ -11,13 +11,13 @@ function _log() {
     }
 }
 
-angular.module("app", [ 'sumstat', 'ui.router' ])
+var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
 
 .config([
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider, $rootScope) {
+    function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
         $stateProvider
             .state("sumstat", {
@@ -28,7 +28,8 @@ angular.module("app", [ 'sumstat', 'ui.router' ])
                         controller: 'topSearchCtrl'
                     },
                     'favorits': {
-                        templateUrl: 'pages/favorits.html'
+                        templateUrl: 'pages/favorits.html',
+                        controller: 'favoritesCtrl'
                     },
                     'navigation': {
                         templateUrl: 'pages/navigation.html',
@@ -47,9 +48,29 @@ angular.module("app", [ 'sumstat', 'ui.router' ])
         $locationProvider.html5Mode(true);
 }])
 
-.controller('MainCtrl', ['$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
+.controller('MainCtrl', ['$scope', '$location', '$rootScope', '$http', function($scope, $location, $rootScope, $http) {
     $rootScope.favorites = {};
     $scope.title = "MyFirst Page in Angular";
+    
+    $rootScope.users = [];
+    
+    $http.get('sumstat.json').success(function(data) {
+        _log(data[0]);
+        
+        $rootScope.users = data;
+        $rootScope.activeUsers = [];
+        $rootScope.blockedUsers = [];
+        
+        $.each($rootScope.users, function(index, user) {
+            if (user.BLOCKED=="0") {
+                $scope.blockedUsers.push(user.ID);
+            }else{
+                $scope.activeUsers.push(user.ID);
+            }
+        });
+        
+        $rootScope.$emit('changeUserList');
+    });
 }])
 
 .controller('NavogationCtrl', ['$scope', '$location', function($scope, $location) {
@@ -96,4 +117,14 @@ angular.module("app", [ 'sumstat', 'ui.router' ])
             'code': 'chenv'
         }
     ];
-}]);
+}])
+
+.controller('favoritesCtrl', [
+    '$scope',
+    '$rootScope',
+    'ngStorage',
+    function ($scope, $rootScope, $localStorage) {
+        $scope.users = $localStorage.favoritUsers;
+        _log('favoritesCtrl ...');
+    }
+]);

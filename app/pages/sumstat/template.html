@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-xs-8">
+<div class="grid-row">
+    <div class="col-xs-9">
         <h4>Все аккаунты (<span ng-bind="users.length">...</span>)</h4>
     </div>
     <div class="col-xs-3 inline-right">
@@ -11,7 +11,7 @@
         <small class="note">заблокировано</small>
     </div>
 </div>
-<div class="row">
+<div class="grid-row">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -28,8 +28,8 @@
         </thead>
         <tbody>
             <tr ng-repeat="user in usersShow">
-                <td><a ng-click="addToFavorites('{{user.ID}}')" aria-hidden="true"><i class="glyphicon glyphicon-star"></i></a></td>
-                <td><a ui-sref="/view/{{user.ID}}" ng-bind="user.ID"></a></td>
+                <td><a href="javascript:void(0);" ng-click="addToFavorites(user.ID)" aria-hidden="true"><i class="glyphicon glyphicon-star default"></i></a></td>
+                <td><a ng-href="/view?acc={{user.ID}}" ng-bind="user.ID"></a></td>
                 <td ng-bind="user.TITLE"></td>
                 <td ng-bind="user.BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="user.CURATOR"></td>
@@ -41,4 +41,18 @@
             </tr>
         </tbody>
     </table>
+    <div class="grid-row">
+        <uib-pagination
+            items-per-page="20"
+            max-size="10"
+            boundary-links="true"
+            total-items="userCount"
+            ng-model="currentPage"
+            class="pagination-sm"
+            previous-text="&lsaquo;"
+            next-text="&rsaquo;"
+            first-text="&laquo;"
+            last-text="&raquo;"
+        ></uib-pagination>
+    </div>
 </div>
