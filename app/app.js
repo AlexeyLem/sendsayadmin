@@ -11,7 +11,7 @@ function _log() {
     }
 }
 
-angular.module("app", [ 'app.sumstat', 'ui.router' ])
+angular.module("app", [ 'sumstat', 'ui.router' ])
 
 .config([
     '$stateProvider',
@@ -23,26 +23,39 @@ angular.module("app", [ 'app.sumstat', 'ui.router' ])
             .state("sumstat", {
                 url: '/sumstat',
                 views: {
-                    content: {
-                        templateUrl: 'pages/sumstat/index.html',
+                    'top_search': {
+                        templateUrl: 'pages/topSearch.html',
+                        controller: 'topSearchCtrl'
+                    },
+                    'favorits': {
+                        templateUrl: 'pages/favorits.html'
+                    },
+                    'navigation': {
+                        templateUrl: 'pages/navigation.html',
+                        controller: 'NavogationCtrl'
+                    },
+                    "content": {
+                        templateUrl: 'pages/sumstat/template.html',
                         controller: 'SumstatCtrl'
-                    }
+                    },
                 }
-                
             });
         
-        _log('Kuku bla');
+        _log('Kuku ...');
         
         $urlRouterProvider.otherwise("sumstat");
-        
         $locationProvider.html5Mode(true);
 }])
 
 .controller('MainCtrl', ['$scope', '$location', function($scope, $location) {
+    $scope.title = "MyFirst Page in Angular";
+}])
+
+.controller('NavogationCtrl', ['$scope', '$location', function($scope, $location) {
     
     _log('MainCtrl ...');
         
-    $scope.title = "MyFirst Page in Angular";
+    
     
     $scope.mainMenu = [
         {
@@ -67,8 +80,10 @@ angular.module("app", [ 'app.sumstat', 'ui.router' ])
         }
     ];
     
-    $scope.defaultSearchSection = 0;
-    $scope.searchlist = [
+    // $scope.defaultSearchSection = 0;
+}])
+.controller('topSearchCtrl', ['$scope', '$location', function($scope, $location) {
+        $scope.searchlist = [
         {
             'name': 'chrights',
             'code': 'chrights'
@@ -82,5 +97,4 @@ angular.module("app", [ 'app.sumstat', 'ui.router' ])
             'code': 'chenv'
         }
     ];
-    
 }]);

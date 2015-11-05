@@ -21,8 +21,9 @@ body {
 }
 
 .ui-main-conteiner {
-    margin-left: 80px;
+    margin-left: 75px;
     background-color: #efefef;
+    padding: 15px
 }
 
 .ui-top {

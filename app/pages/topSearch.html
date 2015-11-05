@@ -1,0 +1,13 @@
+<div style="float: left;">
+    <h2 class="glyphicon glyphicon-ok" aria-hidden="true" style="margin-top: 0px; margin-bottom: 0px; margin-left: 10px;"></h2>
+</div>
+<div class="input-group" style="margin-left: 60px;">												
+  <input type="text" class="form-control" aria-label="" placeholder="Аккаунт">
+  <div class="input-group-btn">
+    <button type="button" class="btn btn-default">Найти</button>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>chrights</span> <span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <li ng-repeat="item in searchlist"><a href="{{item.code}}">{{item.name}}</a></li>
+    </ul>
+  </div>
+</div>
