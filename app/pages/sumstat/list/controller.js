@@ -2,7 +2,7 @@
 
 angular.module('sumstat', [ 'ui.router',  'ui.bootstrap', 'app' ])
 
-.controller('SumstatListCtrl', [
+.controller('SumstatCtrl', [
     '$scope',
     '$rootScope',
     '$http',

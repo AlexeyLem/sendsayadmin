@@ -1,0 +1,10 @@
+<div class="inline ui-favorites">
+	<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
+	<ul ng-if="list.length!=0">
+		<li ng-repeat="item in list">
+			<a  href="#" ui-sref="/view?user={{item.ID}}" ng-bind="item.TITLE"></a>
+			<a class="glyphicon glyphicon-remove ui-favorites_remove-item" title='Удалить "{{item.TITLE}}" из избранных'></a>
+		</li>
+	</ul>
+	<small ng-if="list.length==0">Избранных пользоветелей нет ...</small>
+</div>

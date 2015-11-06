@@ -11,7 +11,7 @@ function _log() {
     }
 }
 
-var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
+angular.module("app", [ 'sumstat', 'ui.bootstrap', 'ui.router' ])
 
 .config([
     '$stateProvider',
@@ -20,8 +20,8 @@ var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
         $stateProvider
-            .state("sumstat", {
-                url: '/sumstat',
+            .state("base", {
+                url: '/',
                 views: {
                     'top_search': {
                         templateUrl: 'pages/topSearch.html',
@@ -36,41 +36,50 @@ var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
                         controller: 'NavogationCtrl'
                     },
                     "content": {
-                        templateUrl: 'pages/sumstat/template.html',
-                        controller: 'SumstatCtrl'
+                        templateUrl: 'pages/content.html',
+                        controller: 'contentCtrl'
                     },
                 }
             });
-        
+
+        $urlRouterProvider.otherwise("/sumstat");
         _log('Kuku ...');
-        
-        $urlRouterProvider.otherwise("sumstat");
+        // localStorageServiceProvider.setStorageType('localStorage');
         $locationProvider.html5Mode(true);
 }])
 
-.controller('MainCtrl', ['$scope', '$location', '$rootScope', '$http', function($scope, $location, $rootScope, $http) {
-    $rootScope.favorites = {};
-    $scope.title = "MyFirst Page in Angular";
-    
-    $rootScope.users = [];
-    
-    $http.get('sumstat.json').success(function(data) {
-        _log(data[0]);
+.controller('MainCtrl', [
+    '$scope',
+    '$location',
+    '$rootScope',
+    '$http',
+    function($scope, $location, $rootScope, $http) {
         
-        $rootScope.users = data;
-        $rootScope.activeUsers = [];
-        $rootScope.blockedUsers = [];
+        $rootScope.favorites = {};
+        $scope.title = "MyFirst Page in Angular";
         
-        $.each($rootScope.users, function(index, user) {
-            if (user.BLOCKED=="0") {
-                $scope.blockedUsers.push(user.ID);
-            }else{
-                $scope.activeUsers.push(user.ID);
-            }
+        $rootScope.userList = {};
+        
+        $http.get('sumstat.json').success(function(data) {
+            _log(data[0]);
+            
+            $.each(data, function(i, user) {
+                $rootScope.userList[user.ID] = user;
+            });
+
+            $rootScope.activeUsers = [];
+            $rootScope.blockedUsers = [];
+            
+            $.each($rootScope.userList, function(index, user) {
+                if (user.BLOCKED=="0") {
+                    $scope.blockedUsers.push(user.ID);
+                }else{
+                    $scope.activeUsers.push(user.ID);
+                }
+            });
+            
+            $rootScope.$emit('changeUserList');
         });
-        
-        $rootScope.$emit('changeUserList');
-    });
 }])
 
 .controller('NavogationCtrl', ['$scope', '$location', function($scope, $location) {
@@ -102,6 +111,7 @@ var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
     
     // $scope.defaultSearchSection = 0;
 }])
+
 .controller('topSearchCtrl', ['$scope', '$location', function($scope, $location) {
         $scope.searchlist = [
         {
@@ -122,9 +132,39 @@ var App = angular.module("app", [ 'sumstat', 'ui.router', 'ngStorage' ])
 .controller('favoritesCtrl', [
     '$scope',
     '$rootScope',
-    'ngStorage',
-    function ($scope, $rootScope, $localStorage) {
-        $scope.users = $localStorage.favoritUsers;
+    function ($scope, $rootScope) {
+        
+        $scope.favList = ['abg','abtoys'];
+
+        $rootScope.$on('changeUserList', function(data) {
+
+            $scope.favoritUsers = {};
+
+            $.each($scope.favList, function(i, id) {
+                $scope.favoritUsers[id] = $rootScope.userList[id];
+            });
+        });
+        
+        // $scope.
+        /*
+        $scope.favoritUsers = localStorageService.get('favoritUsers');
+        
+        $scope.$watch('favoritUsers', function(value) {
+            _log('$watch:favoritUsers value:', value);
+            localStorageService.set('favoritUsers',value);
+        });
+        */
+
+        $rootScope.$on('addToFavorites', function(event, data) {
+
+            _log('Event saFavorites > addToFavorites:', data);
+
+            if(typeof $scope.favoritUsers[data.id] == 'undefined') {
+                 $scope.favoritUsers[data.id] = $rootScope.userList[data.id];
+            }
+
+        });
+        
         _log('favoritesCtrl ...');
     }
 ]);
