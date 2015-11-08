@@ -29,7 +29,7 @@
         <tbody>
             <tr ng-repeat="user in usersShow">
                 <td><a href="javascript:void(0);" ng-click="addToFavorites(user.ID)" aria-hidden="true"><i class="glyphicon glyphicon-star default"></i></a></td>
-                <td><a ng-href="/view?acc={{user.ID}}" ng-bind="user.ID"></a></td>
+                <td><a ui-sref="new-qs({ user: user.ID })" ng-bind="user.TITLE"></a></td>
                 <td ng-bind="user.TITLE"></td>
                 <td ng-bind="user.BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="user.CURATOR"></td>

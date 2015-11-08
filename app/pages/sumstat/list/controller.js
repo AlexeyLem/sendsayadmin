@@ -1,8 +1,10 @@
+(function() {
+    
 'use strict';
 
 angular.module('sumstat', [ 'ui.router',  'ui.bootstrap', 'app' ])
 
-.controller('SumstatCtrl', [
+.controller('SumstatListCtrl', [
     '$scope',
     '$rootScope',
     '$http',
@@ -33,3 +35,5 @@ angular.module('sumstat', [ 'ui.router',  'ui.bootstrap', 'app' ])
         prepareData();
     }
 ]);
+
+})();
