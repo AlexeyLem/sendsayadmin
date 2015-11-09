@@ -1,9 +1,9 @@
 <div class="grid-row">
     <div class="col-xs-9">
-        <h4>Все аккаунты (<span ng-bind="users.length">...</span>)</h4>
+        <h4>Все аккаунты (<span ng-bind="userOrder.length">...</span>)</h4>
     </div>
     <div class="col-xs-3 inline-right">
-        <label ng-bind="users.length">...</label>
+        <label ng-bind="userOrder.length">...</label>
         <small>аккаунтов</small>
         <label ng-bind="activeUsers.length">...</label>
         <small class="note">активно</small>
@@ -27,13 +27,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="user in usersShow">
-                <td><a href="javascript:void(0);" ng-click="addToFavorites(user.ID)" aria-hidden="true"><i class="glyphicon glyphicon-star default"></i></a></td>
-                <td><a ui-sref="new-qs({ user: user.ID })" ng-bind="user.TITLE"></a></td>
-                <td ng-bind="user.TITLE"></td>
-                <td ng-bind="user.BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
-                <td ng-bind="user.CURATOR"></td>
-                <td ng-bind="user.DOMAIN"></td>
+            <tr ng-repeat="userID in usersShow">
+                <td>
+                    <a href="javascript:void(0);" ng-click="addToFavorites(userID)" aria-hidden="true">
+                        <i class="glyphicon glyphicon-star default"></i>
+                    </a>
+                </td>
+                <td><a ui-sref="new-qs({ user: user })" ng-bind="userList[userID].TITLE"></a></td>
+                <td ng-bind="userList[userID].TITLE"></td>
+                <td ng-bind="userList[userID].BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
+                <td ng-bind="userList[userID].CURATOR"></td>
+                <td ng-bind="userList[userID].DOMAIN"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -48,11 +52,13 @@
             boundary-links="true"
             total-items="userCount"
             ng-model="currentPage"
+            ng-change="pageChanged()"
             class="pagination-sm"
             previous-text="&lsaquo;"
             next-text="&rsaquo;"
             first-text="&laquo;"
             last-text="&raquo;"
         ></uib-pagination>
+
     </div>
 </div>

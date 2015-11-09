@@ -22,20 +22,25 @@ angular.module("app", [
 		
 		$rootScope.userList = {};
 		$rootScope.userOrder = [];
-		
-		$http.get('sumstat.json').success(function(data) {
-			_log('sumstat.json LOADED:', data[0]);
-			
-			$.each(data, function(i, user) {
-				$rootScope.userOrder.push(user.ID);
-				$rootScope.userList[user.ID] = user;
-			});
+		$rootScope.activeUsers = [];
+        $rootScope.blockedUsers = [];
 
-			$rootScope.activeUsers = [];
-			$rootScope.blockedUsers = [];
-			
-			$rootScope.$emit('changeUserList');
-		});
+        $http.get('sumstat.json').success(function(data) {
+
+            $.each(data, function(i, user) {
+                $rootScope.userOrder.push(user.ID);
+                $rootScope.userList[user.ID] = user;
+
+                if (user.BLOCKED=="0") {
+                    $rootScope.blockedUsers.push(user.ID);
+                }else{
+                    $rootScope.activeUsers.push(user.ID);
+                }
+
+            });
+            
+            $rootScope.$emit('changeUserList');
+        });
     }
 ])
 .config([
@@ -87,18 +92,8 @@ angular.module("app", [
 	'$http',
 	function($scope, $location, $rootScope, $http) {
 		_log('MainCtrl ...');
-
-		
 		$scope.title = "MyFirst Page in Angular";
 
-
-		$.each($rootScope.userList, function(index, user) {
-			if (user.BLOCKED=="0") {
-				$scope.blockedUsers.push(user.ID);
-			}else{
-				$scope.activeUsers.push(user.ID);
-			}
-		});
 }])
 .controller('NavogationCtrl', [
 	'$scope',
@@ -192,7 +187,14 @@ angular.module("app", [
 		
 		_log('favoritesCtrl ...');
 	}
-]);
+]).filter('sumstatpagination', function() {
+    _log('sumstatpagination arguments:',arguments);
+  return function(input) {
+    _log('arguments:',arguments);
+    return input;
+    // return input ? '\u2713' : '\u2718';
+  };
+});
 
 
 

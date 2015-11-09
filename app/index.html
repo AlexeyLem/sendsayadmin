@@ -28,14 +28,13 @@
 	<script src="pages/content.js"></script>
 	<script src="directives/favorites/index.js"></script>
 	 -->
-
 </head>
 
 <body ng-cloak>
 	<!--[if lt IE 8]>
 					<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-<!---->
+
 	<div class="ui-top">
 		<div class="grid-row">
 			<div class="col-xs-5 inline">
@@ -62,12 +61,15 @@
 
     <hr>
     <pre>
-      <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+      <!-- 
+      	Heres some values to keep an eye on in the sample in order to understand $state and $stateParams 
+      -->
       $state = {{$state.current.name}}
       $stateParams = {{$stateParams}}
       $state full url = {{ $state.$current.url.source }}
       <!-- $state.$current is not a public api, we are using it to
-           display the full url for learning purposes-->
+           display the full url for learning purposes 
+       -->
     </pre>
 
 </body>

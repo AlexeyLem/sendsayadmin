@@ -8,7 +8,7 @@ angular.module('app.sumstat', [
 	'$stateProvider',
 	'$urlRouterProvider',
 
-    function ($stateProvider,   $urlRouterProvider) {
+    function ($stateProvider, $urlRouterProvider) {
     	_log('app.sumstat config ...')
     	
     	$stateProvider
@@ -22,10 +22,9 @@ angular.module('app.sumstat', [
 	    		url: '',
 	    		// template: 'SumstatList ...',
 	    		templateUrl: 'pages/sumstat/list/template.html',
-	    		controller: 'SumstatListCtrl'
+	    		controller: 'SumstatListCtrl',
 	    	});
-	    
-	    $urlRouterProvider.when('/sumstat', '/sumstat/list');
+
     }
  ])
 
@@ -38,28 +37,31 @@ angular.module('app.sumstat', [
 	'$location',
 	function ($scope, $rootScope, $http, $state, $stateParams, $location) {
 		
-		_log('sumstat Module:SumstatCtrl Controller', $location.search());
-		
+		_log("$location.search('page'): " + $location.search().page);
+
 		var prepareData = function() {
-			$scope.usersShow = $rootScope.userOrder.slice(0,20);
+			var partSize = 20,
+
+                partStart = ($scope.currentPage - 1) * partSize,
+                partEnd = $scope.currentPage * partSize - 1;
+
 			$scope.userCount = $rootScope.userOrder.length;
-			$scope.usersShow = $rootScope.userOrder.slice(0,20);
+            $scope.usersShow = $rootScope.userOrder.slice(partStart, partEnd);
 		};
-		
+
 		$scope.addToFavorites = function(id) {
 			$rootScope.$broadcast('addToFavorites', { 'ID': id });
 		};
 		
-		$scope.$watch('currentPage', function(pageNum) {
-			_log($state.current.name+ ' / currentPage: ' + pageNum);
-			$location.search('page', pageNum);
-			// $state.go($state.current.name, { page: pageNum });
-			_log('stateParams: ',$stateParams);
-		});
-
-		$scope.page = $stateParams.page || 1;
+		$scope.pageChanged = function() {
+			$location.search('page', $scope.currentPage);
+			prepareData();
+		};
 		
 		$rootScope.$on('changeUserList', prepareData);
+
+		$scope.currentPage = $location.search().page;
+		_log('$scope.currentPage: '+$scope.currentPage);
 
 		prepareData();
 	}
