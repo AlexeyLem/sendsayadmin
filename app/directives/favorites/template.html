@@ -2,7 +2,7 @@
 	<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
 	<ul ng-if="list.length!=0">
 		<li ng-repeat="item in list">
-			<a  href="#" ui-sref="/view?user={{item.ID}}" ng-bind="item.TITLE"></a>
+			<a ng-href="/sumstat/view/?user={{item.ID}}">{{item.TITLE}}</a>
 			<a class="glyphicon glyphicon-remove ui-favorites_remove-item" title='Удалить "{{item.TITLE}}" из избранных'></a>
 		</li>
 	</ul>

@@ -1,5 +1,5 @@
-<div class="ui-main-nav">
+<div class="ui-main-nav" ng-controller="NavogationCtrl">
     <ul>
-        <li ng-repeat="item in mainMenu"><a ui-sref="{{item.path}}">{{item.name}}</a></li>
+        <li ng-repeat="item in mainMenu"><a ng-href="{{item.path}}">{{item.name}}</a></li>
     </ul>    
 </div>

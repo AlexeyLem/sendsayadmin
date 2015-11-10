@@ -33,7 +33,7 @@
                         <i class="glyphicon glyphicon-star default"></i>
                     </a>
                 </td>
-                <td><a ui-sref="new-qs({ user: user })" ng-bind="userList[userID].TITLE"></a></td>
+                <td><a ng-href="/sumstat/view/?user={{userID}}">{{userList[userID].TITLE}}</a></td>
                 <td ng-bind="userList[userID].TITLE"></td>
                 <td ng-bind="userList[userID].BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="userList[userID].CURATOR"></td>

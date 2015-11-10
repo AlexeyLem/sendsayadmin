@@ -7,7 +7,7 @@
     <button type="button" class="btn btn-default">Найти</button>
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>chrights</span> <span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-menu-right">
-      <li ng-repeat="item in searchlist"><a href="{{item.code}}">{{item.name}}</a></li>
+      <li ng-repeat="item in searchlist"><a href="#" ng-click="setSection($event, $index)" data-index="{{$index}}">{{item.name}}</a></li>
     </ul>
   </div>
 </div>

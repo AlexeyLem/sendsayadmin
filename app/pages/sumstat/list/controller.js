@@ -1,47 +1,38 @@
-(function() {
-    
 'use strict';
 
-angular.module('sumstat', [ 'ui.router',  'ui.bootstrap', 'app' ])
-
+AppSumstat
 .controller('SumstatListCtrl', [
     '$scope',
     '$rootScope',
     '$http',
+    '$state',
     '$stateParams',
     '$location',
-    function ($scope, $rootScope, $http, $stateParams, $location) {
-        
-        _log('sumstat Module:SumstatCtrl Controller', $location.search());
+    function ($scope, $rootScope, $http, $state, $stateParams, $location) {
         
         var prepareData = function() {
             var partSize = 20,
-                partStart = ($stateParams.page-1) * partSize,
-                partEnd = $stateParams.page*partSize;
+
+                partStart = ($scope.currentPage - 1) * partSize,
+                partEnd = $scope.currentPage * partSize - 1;
 
             $scope.userCount = $rootScope.userOrder.length;
             $scope.usersShow = $rootScope.userOrder.slice(partStart, partEnd);
         };
-        
-        $scope.page = $stateParams.page || 1;
 
         $scope.addToFavorites = function(id) {
             $rootScope.$broadcast('addToFavorites', { 'ID': id });
         };
         
-        $scope.changePageNum = function() {
-            
-        };
-
-        $scope.$watch('currentPage', function(pageNum) {
+        $scope.pageChanged = function() {
+            $location.search('page', $scope.currentPage);
             prepareData();
-        });
-
+        };
         
         $rootScope.$on('changeUserList', prepareData);
+
+        $scope.currentPage = $location.search().page || 1;
 
         prepareData();
     }
 ]);
-
-})();

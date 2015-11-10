@@ -90,7 +90,7 @@ body {
 }
 
 .grid-row:after {
-  clear: both;
+  __clear: both;
 }
 
 * .glyphicon.yellow {
