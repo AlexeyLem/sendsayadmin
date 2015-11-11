@@ -20,8 +20,8 @@ AppSumstat
             $scope.usersShow = $rootScope.userOrder.slice(partStart, partEnd);
         };
 
-        $scope.addToFavorites = function(id) {
-            $rootScope.$broadcast('addToFavorites', { 'ID': id });
+        $scope.favoriteUser = function(event, id) {
+            $rootScope.$broadcast('favoriteUserChange', { 'ID': id });
         };
         
         $scope.pageChanged = function() {

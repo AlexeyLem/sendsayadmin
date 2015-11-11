@@ -1,9 +1,9 @@
 <div class="inline ui-favorites">
 	<span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-	<ul ng-if="list.length!=0">
-		<li ng-repeat="item in list">
-			<a ng-href="/sumstat/view/?user={{item.ID}}">{{item.TITLE}}</a>
-			<a class="glyphicon glyphicon-remove ui-favorites_remove-item" title='Удалить "{{item.TITLE}}" из избранных'></a>
+	<ul ng-if="showList.length!=0">
+		<li ng-repeat="item in showList">
+			<a ng-href="/sumstat/view/?user={{item}}">{{userList[item].TITLE}}</a>
+			<a class="glyphicon glyphicon-remove ui-favorites_remove-item" title='Удалить "{{userList[item].TITLE}}" из избранных'></a>
 		</li>
 	</ul>
 	<small ng-if="list.length==0">Избранных пользоветелей нет ...</small>

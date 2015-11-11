@@ -3,20 +3,26 @@
 var App = angular.module("app", [
 	'app.sumstat',
 	'ui.bootstrap',
-	'ui.router'
+	'ui.router',
+	'LocalStorageModule'
 ])
 
 .config([
 	'$stateProvider',
 	'$urlRouterProvider',
 	'$locationProvider',
-    function ($stateProvider,   $urlRouterProvider, $locationProvider) {
+	'localStorageServiceProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider, localStorageServiceProvider) {
 
 		_log('app config ...');
 
  		$locationProvider.html5Mode(true);
+ 		
+ 		localStorageServiceProvider.setPrefix('SA');
+ 		// localStorageServiceProvider.setStorageType('localStorage');
+
  		$urlRouterProvider
-			.when('', '/sumstat/')
+			.when('/', '/sumstat/')
 			.otherwise("/404/");
 
 		$stateProvider
@@ -28,30 +34,45 @@ var App = angular.module("app", [
                     '$rootScope',
                     '$state',
                     '$stateParams',
-                    function ($http, $rootScope, $state, $stateParams) {
+                    'localStorageService',
+                    function ($http, $rootScope, $state, $stateParams, localStorageService) {
 
                         $rootScope.$state = $state;
                         $rootScope.$stateParams = $stateParams;
-
-                        $rootScope.favorites = {};
                         
+                        _log('localStorageService.isSupported', localStorageService.isSupported);
+                        _log('localStorageService:', localStorageService.get('favoriteUsers'));
+
+                        $rootScope.localStorage = localStorageService;
+
+                        if(!localStorageService.get('favoriteUsers')) {
+                        	$rootScope.favoriteUsers = '';
+                        }else{
+                        	$rootScope.favoriteUsers = localStorageService.get('favoriteUsers');
+                        }
+                        
+
+                       	_log(' ---- $rootScope.favoriteUsers:', $rootScope.favoriteUsers);
+
                         $rootScope.userList = {};
                         $rootScope.userOrder = [];
                         $rootScope.activeUsers = [];
                         $rootScope.blockedUsers = [];
 
                         return $http.get('sumstat.json').success(function(data) {
+                        	
+                        	var _data = data.slice(0,50);
 
-                            $.each(data, function(i, user) {
-                                $rootScope.userOrder.push(user.ID);
-                                $rootScope.userList[user.ID] = user;
+                            $rootScope.userOrder = _data.map(function(user) {
+                            	
+                            	$rootScope.userList[user.ID] = user;
 
                                 if (user.BLOCKED=="0") {
                                     $rootScope.blockedUsers.push(user.ID);
                                 }else{
                                     $rootScope.activeUsers.push(user.ID);
                                 }
-
+                                return user.ID;
                             });
                             
                             $rootScope.$emit('changeUserList');

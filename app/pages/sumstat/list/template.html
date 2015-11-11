@@ -29,7 +29,7 @@
         <tbody>
             <tr ng-repeat="userID in usersShow">
                 <td>
-                    <a href="javascript:void(0);" ng-click="addToFavorites(userID)" aria-hidden="true">
+                    <a href="javascript:void(0);" ng-click="favoriteUser($event, userID)" ng-class="(favoriteUsers[userID]?'favorite':'')" aria-hidden="true">
                         <i class="glyphicon glyphicon-star default"></i>
                     </a>
                 </td>
