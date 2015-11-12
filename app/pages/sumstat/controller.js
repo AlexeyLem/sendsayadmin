@@ -10,6 +10,7 @@
 
     function ($stateProvider, $urlRouterProvider) {
     	_log('app.sumstat config ...');
+    	
     	$urlRouterProvider.when('/sumstat/','/sumstat');
     	$stateProvider
 	    	
@@ -27,11 +28,11 @@
 	    	})
 
 	    	.state('home.sumstat.view', {
-	    		url: '/view?user',
+	    		url: '/view',
 	    		templateUrl: 'pages/sumstat/user_view/template.html',
 	    		controller: 'SumstatUserView',
 	    		resolve: {
-	    			user: ['$scope','$stateParams', function($stateParams) {
+	    			user: ['$scope','$stateParams', function($scope, $stateParams) {
 	    				return $scope.userList[$stateParams.user];
 	    			}]
 	    		}

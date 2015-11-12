@@ -22,8 +22,8 @@ var App = angular.module("app", [
  		// localStorageServiceProvider.setStorageType('localStorage');
 
  		$urlRouterProvider
-			.when('/', '/sumstat/')
-			.otherwise("/404/");
+			.when('/', '/sumstat')
+			.otherwise("/404");
 
 		$stateProvider
 			.state("home", {
