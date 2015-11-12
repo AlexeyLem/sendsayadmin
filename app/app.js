@@ -60,9 +60,6 @@ var App = angular.module("app", [
                         // Удаление пользователя из избранных
                         $rootScope.$on('removeFromFavorites', function(event, user) {
                         	var index = $.inArray(user.ID, $rootScope.favoriteUsers);
-                        	_log('$rootScope.favoriteUsers', $rootScope.favoriteUsers)
-                        	_log('user.ID: '+user.ID)
-                        	_log('removeFromFavorites index: '+index)
                         	if(index!=-1) {
                         		$rootScope.favoriteUsers.splice(index,1);
                         		localStorageService.set('favoriteUsers',$rootScope.favoriteUsers.join(','))
@@ -80,6 +77,7 @@ var App = angular.module("app", [
                                 }else{
                                     $rootScope.activeUsers.push(user.ID);
                                 }
+
                                 return user.ID;
                             });
                             
