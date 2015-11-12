@@ -1,5 +1,10 @@
-<div class="ui-main-nav">
-    <ul>
-        <li ng-repeat="item in mainMenu"><a ng-href="{{item.path}}">{{item.name}}</a></li>
+<nav class="ui-main-nav">
+    <ul class="nav nav-pills nav-stacked navbar-inverse">
+        <li ng-repeat="item in mainMenu">
+        	<a ng-href="{{item.path}}">
+        	<i ng-if="item.icon" class="{{item.icon}}"></i>
+        	{{item.name}}
+        	</a>
+        </li>
     </ul>    
-</div>
+</nav>

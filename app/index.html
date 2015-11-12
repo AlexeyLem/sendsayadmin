@@ -10,8 +10,10 @@
 	
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap-theme.css">
-	<link rel="stylesheet" href="app.css">
+	<!-- <link rel="stylesheet" href="css/bootstrap-cerulean.min.css"> -->
+
 	<link rel="stylesheet" href="animation.css">
+	<link rel="stylesheet" href="app.css">
 
 	<script src="libs/jquery/dist/jquery.min.js"></script>
 	<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -22,7 +24,6 @@
 	<script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
 	<script src="app.js"></script>
-	<script src="directives/favorites/index.js"></script>
 	<script src="pages/sumstat/controller.js"></script>
 	<script src="pages/sumstat/list/controller.js"></script>
 </head>
@@ -58,7 +59,7 @@
 	<ng-include 
 		src="'pages/navigation.html'" 
 		ng-animate="{enter: 'app-enter', leave: 'app-leave'}"
-		 ng-controller="NavogationCtrl"
+		ng-controller="NavogationCtrl"
 	></ng-include>
 
 	<div ui-view ng-animate="{enter: 'app-enter', leave: 'app-leave'}" class="ui-main-conteiner container-fluid"></div>

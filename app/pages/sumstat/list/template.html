@@ -1,15 +1,20 @@
 <div class="grid-row">
-    <div class="col-xs-9">
+    <div class="pull-left">
         <h4>Все аккаунты (<span ng-bind="userOrder.length">...</span>)</h4>
     </div>
-    <div class="col-xs-3 inline-right">
-        <label ng-bind="userOrder.length">...</label>
-        <small>аккаунтов</small>
-        <label ng-bind="activeUsers.length">...</label>
-        <small class="note">активно</small>
-        <label ng-bind="blockedUsers.length">...</label>
-        <small class="note">заблокировано</small>
+
+    <div class="pull-right">
+        <label ng-bind="userOrder.length" class="text-primary">...</label>
+        <small class="note-up">аккаунтов</small>
+        &nbsp;
+        <label ng-bind="activeUsers.length" class="text-success">...</label>
+        <small class="note-up">активно</small>
+        &nbsp;
+        <label ng-bind="blockedUsers.length" class="text-danger">...</label>
+        <small class="note-up">заблокировано</small>
     </div>
+
+
 </div>
 <div class="grid-row">
     <table class="table table-hover">
@@ -17,6 +22,7 @@
             <tr>
                 <td class="min"></td>
                 <th>Логин</th>
+
                 <th>Название</th>
                 <th>Состояние</th>
                 <th>Куратор</th>
@@ -27,13 +33,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="userID in usersShow">
+            <tr ng-repeat="userID in usersShow"  class="{{isFavoriteUser(userID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
                 <td>
-                    <a href="javascript:void(0);" ng-click="favoriteUser($event, userID)" ng-class="(favoriteUsers[userID]?'favorite':'')" aria-hidden="true">
+                    <a ng-if="!isFavoriteUser(userID)" class="ui-favorite-add" href="javascript:void(0);" ng-click="favoriteUser($event, userID)" aria-hidden="true" title="Добавить в избранные">
                         <i class="glyphicon glyphicon-star default"></i>
                     </a>
+                    <i ng-if="isFavoriteUser(userID)" class="glyphicon glyphicon-star yellow"></i>
                 </td>
                 <td><a ng-href="/sumstat/view/?user={{userID}}">{{userList[userID].TITLE}}</a></td>
+
                 <td ng-bind="userList[userID].TITLE"></td>
                 <td ng-bind="userList[userID].BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="userList[userID].CURATOR"></td>

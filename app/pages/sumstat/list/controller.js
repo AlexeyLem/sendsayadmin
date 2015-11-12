@@ -4,11 +4,8 @@ AppSumstat
 .controller('SumstatListCtrl', [
     '$scope',
     '$rootScope',
-    '$http',
-    '$state',
-    '$stateParams',
     '$location',
-    function ($scope, $rootScope, $http, $state, $stateParams, $location) {
+    function ($scope, $rootScope, $location) {
         
         var prepareData = function() {
             var partSize = 20,
