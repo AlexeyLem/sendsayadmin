@@ -10,12 +10,12 @@
 
     function ($stateProvider, $urlRouterProvider) {
     	_log('app.sumstat config ...');
-    	
+    	$urlRouterProvider.when('/sumstat/','/sumstat');
     	$stateProvider
 	    	
 	    	.state('home.sumstat', {
 	    		abstract: true,
-				url: '/sumstat/',
+				url: '/sumstat',
 	    		template: '<div ui-view></div>'
 	    	})
 	    	
@@ -27,7 +27,7 @@
 	    	})
 
 	    	.state('home.sumstat.view', {
-	    		url: '/sumstat/view?user',
+	    		url: '/view?user',
 	    		templateUrl: 'pages/sumstat/user_view/template.html',
 	    		controller: 'SumstatUserView',
 	    		resolve: {
