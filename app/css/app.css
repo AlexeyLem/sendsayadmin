@@ -10,18 +10,35 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
 .ui-main-nav li {
     list-style: none;
 }
+
 .ui-main-nav li a {
+    height: 60px;
     display: block;
-    margin: 5px;
-    border-bottom: 1px solid black;
-    background: #333;
+    text-align: center;
+    padding: 10px 5px;
+    background-color: #333;
+    color: #ccc;
+}
+
+.ui-main-nav li a:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #666;
+    transition: color .3s, background-color .3s;
+}
+
+.ui-main-nav li a i {
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .ui-main-conteiner {
-    margin-left: 75px;
+    margin-left: 80px;
     background-color: #efefef;
     padding: 15px
 }

@@ -1,7 +1,7 @@
 <nav class="ui-main-nav">
-    <ul class="nav nav-pills nav-stacked navbar-inverse">
+    <ul>
         <li ng-repeat="item in mainMenu">
-        	<a ng-href="{{item.path}}">
+        	<a ui-sref="{{item.state}}" ui-sref-active="active">
         	<i ng-if="item.icon" class="{{item.icon}}"></i>
         	{{item.name}}
         	</a>

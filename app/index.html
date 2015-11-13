@@ -24,8 +24,14 @@
 	<script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
 	<script src="app.js"></script>
-	<script src="pages/sumstat/controller.js"></script>
+	<script src="pages/root/config.js"></script>
+	<script src="pages/root/main.ctrl.js"></script>
+	<script src="pages/root/favorites.ctrl.js"></script>
+	<script src="pages/root/navigation.ctrl.js"></script>
+	<script src="pages/root/topsearch.ctrl.js"></script>
+	<script src="pages/sumstat/module.js"></script>
 	<script src="pages/sumstat/list/controller.js"></script>
+	<script src="pages/sumstat/user_view/controller.js"></script>
 </head>
 
 <body ng-cloak>
@@ -37,18 +43,19 @@
       $stateParams = {{$stateParams}}
       $state full url = {{ $state.$current.url.source }}
     </pre>
+
 	<div class="ui-top">
 		<div class="row">
 			<div class="col-xs-5 inline">
 				<ng-include
-					src="'pages/top_search.html'"
+					src="'pages/root/top_search.html'"
 					ng-animate="{enter: 'app-enter', leave: 'app-leave'}"
 					 ng-controller="TopSearchCtrl"
 				></ng-include>
 			</div>
 			<div class="col-xs-7 inline">
 				<ng-include
-					src="'pages/favorits.html'"
+					src="'pages/root/favorits.html'"
 					ng-animate="{enter: 'app-enter', leave: 'app-leave'}"
 					ng-controller="favoritesCtrl"
 				></ng-include>
@@ -57,7 +64,7 @@
 	</div>
 
 	<ng-include 
-		src="'pages/navigation.html'" 
+		src="'pages/root/navigation.html'" 
 		ng-animate="{enter: 'app-enter', leave: 'app-leave'}"
 		ng-controller="NavogationCtrl"
 	></ng-include>
