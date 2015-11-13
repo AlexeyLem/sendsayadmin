@@ -86,11 +86,18 @@
 
 	    	.state('sumstat.view', {
 	    		abstract: true,
-	    		templateUrl: 'pages/sumstat/user_view/template.html'
+	    		url: '/view/:userId',
+	    		templateUrl: 'pages/sumstat/user_view/template.html',
+	    		controller: [
+				    '$scope',
+				    '$stateParams',
+				    function ($scope, $stateParams) {
+					    $scope.user = $scope.userList[$stateParams.userId];
+				    }]
 	    	})
 
 	    	.state('sumstat.view.detail', {
-	    		url: '/view/:userId',
+	    		url: '',
 	    		templateUrl: 'pages/sumstat/user_view/card/template.html',
 	    		controller: 'SumstatUserViewCtrl'
 	    	});
