@@ -19,7 +19,7 @@
 	    	.state('sumstat', {
 	    		abstract: true,
 				url: '/sumstat',
-	    		template: '<div ui-view></div>',
+	    		template: 'Sumstat: <div ui-view></div>',
 	    		resolve:  [
 	                '$http',
 	                '$rootScope',
@@ -80,20 +80,17 @@
 	    	
 	    	.state('sumstat.list', {
 	    		url: '',
-	    		// template: 'SumstatList ...',
 	    		templateUrl: 'pages/sumstat/list/template.html',
 	    		controller: 'SumstatListCtrl',
 	    	})
 
 	    	.state('sumstat.view', {
 	    		abstract: true,
-	    		template: '<div ui-view></div>',
-	    		url: '/view/:userId'
-	    		// templateUrl: 'pages/sumstat/user_view/template.html'
+	    		templateUrl: 'pages/sumstat/user_view/template.html'
 	    	})
 
 	    	.state('sumstat.view.detail', {
-	    		url: '',
+	    		url: '/view/:userId',
 	    		templateUrl: 'pages/sumstat/user_view/card/template.html',
 	    		controller: 'SumstatUserViewCtrl'
 	    	});
