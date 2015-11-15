@@ -39,5 +39,19 @@ App.controller('NavogationCtrl', [
 			}
 		];
 		
+		$scope.$watchCollection('mainMenu', function() {
+
+			_log('Performe RUN: '+ $('#left-panel').length);
+
+			$('#left-panel').css({
+				left: -80,
+				opacity: 0.25
+			}).animate({
+				left: 0,
+				opacity: 1
+			},500);
+		
+		});
+
 		// $scope.defaultSearchSection = 0;
 }])

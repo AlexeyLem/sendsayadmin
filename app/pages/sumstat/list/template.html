@@ -21,7 +21,14 @@
         <thead>
             <tr>
                 <td class="min"></td>
-                <th>Логин</th>
+                <th>
+                    <a href="#" ng-click="sortType = 'TITLE'; sortReverse = !sortReverse">
+                        Логин
+                        <span ng-show="sortType == 'TITLE' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                        <span ng-show="sortType == 'TITLE' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+
+                </th>
 
                 <th>Название</th>
                 <th>Состояние</th>
@@ -33,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="userID in usersShow"  class="{{isFavoriteUser(userID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
+            <tr ng-repeat="userID in usersShow | orderBy:sortType:sortReverse"  class="{{isFavoriteUser(userID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
                 <td>
                     <a ng-if="!isFavoriteUser(userID)" class="ui-favorite-add" href="javascript:void(0);" ng-click="favoriteUser($event, userID)" aria-hidden="true" title="Добавить в избранные">
                         <i class="glyphicon glyphicon-star default"></i>

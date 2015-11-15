@@ -12,8 +12,14 @@ App.controller('favoritesCtrl', [
 
         };
 
-        $scope.$on('favoriteUserChange', function(event, data) {
+        $rootScope.$watch('favoriteUsers', function() {
 
+            _log('event', arguments);
+
+        });
+
+        $scope.$on('favoriteUserChange', function(event, data) {
+            
             var list = $scope.favoriteUsers,
             	index = $.inArray(data.ID, list);
 

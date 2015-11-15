@@ -1,7 +1,9 @@
 App.controller('TopSearchCtrl', [
     '$scope',
+    '$state',
+    '$rootScope',
     '$location',
-    function($scope, $location) {
+    function($scope, $state, $rootScope, $location) {
 
 	_log('topSearchCtrl ...');
 
@@ -20,9 +22,20 @@ App.controller('TopSearchCtrl', [
 		}
 	];
 
+	$scope.doSearch = function(str) {
+		if($scope.searchSection == 0) {
+			
+		}
+	};
+
+	$scope.$watch('searchInput', function(data) {
+
+	});
+
     $scope.searchSection = 0;
+
     $scope.setSection = function(event, index) {
-        $scope.section = index;
+        $scope.searchSection = index;
         event.preventDefault();
         _log('setSection arguments:', arguments)
     };

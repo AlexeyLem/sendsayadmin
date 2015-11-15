@@ -4,7 +4,8 @@ var App = angular.module("app", [
 	'app.sumstat',
 	'ui.bootstrap',
 	'ui.router',
-	'LocalStorageModule'
+	'LocalStorageModule',
+	'ngAnimate'
 ]);
 
 function _log() {

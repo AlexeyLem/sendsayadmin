@@ -2,10 +2,36 @@
 body {
     background-color: #333;
 }
-.ui-main-nav {
-    float: left;
-    width: 80px;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
 }
+
+#logo {
+    float: left;
+    width: 21px;
+    height: 24px;
+    width: 60px;
+    padding: 2px 10px;
+    text-align: center;
+    color: #ab1347;
+}
+
+.icon_logo {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    fill: currentColor;
+}
+
+#left-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 904;
+    padding-top: 55px;
+     width: 80px;
+}
+
 .ui-main-nav > ul {
     margin: 0px;
     padding: 0px;
@@ -19,7 +45,7 @@ body {
     height: 60px;
     display: block;
     text-align: center;
-    padding: 10px 5px;
+    padding: 15px 5px 10px;
     background-color: #333;
     color: #ccc;
 }
@@ -73,6 +99,7 @@ body {
 }
 .ui-favorite-item {
     margin-left: 10px;
+    transition: width .5s; 
 }
 .ui-favorite-item .btn {
 
@@ -100,6 +127,14 @@ body {
     display: inline-block;
     position: relative;
     top: -5px;
+}
+
+.caret-down:before {
+    content: "\f0d7";
+}
+
+.caret-up:before {
+    content: "\f0d8";
 }
 
 .loader {

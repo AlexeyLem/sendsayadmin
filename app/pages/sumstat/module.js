@@ -19,7 +19,7 @@
 	    	.state('sumstat', {
 	    		abstract: true,
 				url: '/sumstat',
-	    		template: 'Sumstat: <div ui-view></div>',
+	    		template: '<div class="ui-main-conteiner container-fluid" ui-view></div>',
 	    		resolve:  [
 	                '$http',
 	                '$rootScope',
