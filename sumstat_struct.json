@@ -1,0 +1,79 @@
+ {
+        "ID": "a360", // Идентификатор
+        "TITLE": "a360", // Название
+        "CURATOR": "smstraffic", // Куратор
+        "DOMAIN": "pk", // Домен/Сервер
+        "tarif": "I", // Тариф
+        "managerSale": null, // Менеджер по продажам
+        "managerAccount": "Лузан", // Аккаунт-менеджер
+        "ownerEmail": "d.minin@smsmail.ru", // Адрес
+        "paseDst": "disabled", // Получатель платежей
+        
+        "_unconfirm_usage": "0", // расход Без Конфирма
+        "_unconfirm_limit": "100000", // лимит БезКонфирма
+        "_unconfirm_rest": 100000,
+
+        "_invite_usage": "0", // расход Приглашений
+        "_invite_limit": "-1", // лимит Приглашений
+        "_invite_rest": "-1",
+        
+        "_personal_usage": "0", // расход Транзакционных писем
+        "_personal_limit": "100000", // лимит Транзакционных писем
+        "_personal_rest": 100000,
+
+        "INTESTING": "0", // Состояние Тестируется
+        "BLOCKEDISSUE": "0", // Состояние Нет оплаты
+        "BLOCKED": "1", // Состояние Заблокирован
+        
+        "IssueDate": "2014-04-23 19:50:30", // Последний выпуск
+        "members_email": 43143, // e-mail Адресов
+        "members_sms": 0, // Телефонов
+        
+        "STAT": {
+            "active": 36537, // количество подписчиков которые могут участвовать в рассылках писем или смс
+            "active.email": 36537,
+            "active.msisdn": 0,
+
+            "total": 43143, // всего подписчиков
+            "total.email": 43143, // всего именно email
+            "total.msisdn": 0, // Всего телефонов
+
+            "locked": 6606, // уникальное количество заблокированных - не могут быть в рассылке
+            "locked.stoplist": 3612, // Количество в стоп-листе
+            "locked.confirm": 0, // Не подтвержденные
+            "locked.unsubscribed": 3612, // Отписавшиеся
+            "locked.hardbounced": 2994
+        },
+        "traf_0_tiraj_email": "114899",
+        "traf_3_traf_sms": "0",
+        "traf_2_cost_sms": "0",
+        "traf_0_month": "",
+        "traf_1_tiraj_sms": "0",
+        "traf_0_cost_sms": "0",
+        "traf_1_traf_sms": "0",
+        "traf_2_tiraj_email": "34164",
+        "traf_1_tiraj_email": "6970",
+        "traf_1_raz_email": "2",
+        "traf_1_traf_email": "18693178",
+        "traf_3_tiraj_sms": "0",
+        "traf_1_month": "2014-04",
+        "traf_2_traf_sms": "0",
+        "traf_2_raz_sms": "0",
+        "traf_2_month": "2013-12",
+        "traf_0_raz_sms": "0",
+        "traf_2_raz_email": "5",
+        "traf_3_raz_sms": "0",
+        "traf_3_cost_sms": "0",
+        "traf_3_raz_email": "8",
+        "traf_1_raz_sms": "0",
+        "traf_0_traf_sms": "0",
+        "traf_3_tiraj_email": "33964",
+        "traf_0_traf_email": "221455979",
+        "traf_0_raz_email": "24",
+        "traf_0_tiraj_sms": "0",
+        "traf_2_traf_email": "91189517",
+        "traf_3_traf_email": "83346302",
+        "traf_3_month": "2013-11",
+        "traf_2_tiraj_sms": "0",
+        "traf_1_cost_sms": "0"
+    },
