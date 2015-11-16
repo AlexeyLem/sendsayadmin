@@ -66,7 +66,7 @@ body {
 .ui-main-conteiner {
     margin-left: 80px;
     background-color: #ffffff;
-    padding: 15px
+    padding: 15px 0px 15px 15px;
 }
 
 .ui-top {
@@ -166,7 +166,7 @@ body {
 }
 
 .grid-row:after {
-  __clear: both;
+  clear: both;
 }
 
 * .glyphicon.yellow {
@@ -175,4 +175,55 @@ body {
 
 * .glyphicon.default {
     color: gray;
+}
+
+label {
+    font-weight: normal;
+    font-size: 0.9em;
+    color: #999999;
+}
+
+.layout-info {
+    margin: 7px 5px 7px 0px;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    padding: 10px 15px;
+}
+.layout-info:after {
+    content: " ";
+    clear: both;
+}
+
+.layout-info label {
+    position: relative;
+    top: 5px;
+}
+
+.right-layout {
+    background-color: #efefef;
+}
+
+.right-layout:after {
+    content: " ";
+    clear: both;
+}
+
+.ui-tab-content header {
+    padding-left: 15px;
+}
+
+.ui-tab-content header * {
+    float: left;
+    line-height: 1.6em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.ui-tab-content header:after {
+    content: " ";
+    clear: both;
+}
+
+.ui-tab-content:after {
+    content: " ";
+    clear: both;
 }

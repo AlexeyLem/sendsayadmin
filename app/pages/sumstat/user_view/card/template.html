@@ -1,4 +1,63 @@
-Hello this page for view user '{{user.TITLE}}' properties  ...
-<pre>
-{{userJSON}}
-</pre>
+
+
+<div class="ui-tab-content">
+	<div class="col-md-8">
+		
+		<header class="grid-row inline">
+			<h3 ng-bind="user.TITLE"></h3>		
+			
+			<h4>({{user.ID}})</h4>
+			
+			<big ng-if="parseInt(user.BLOCKED)" class="error">Заблокирован</big>
+			<big ng-if="parseInt(user.BLOCKEDISSUE)" class="warning">Ожидается оплата</big>
+			<big ng-if="parseInt(user.INTESTING)" class="warning">Тестируется</big>
+			
+		</header>
+		<div class="row">
+			<div class="grid-row col-md-6">
+				<div class="layout-info">
+					<div><label>Куратор:</label></div>
+					<div class="grid-row"><span ng-bind="user.CURATOR"></span></div>
+					<div><label>Аккаунт-менеджер:</label></div>
+					<div class="grid-row"><span ng-bind="user.managerAccount">...</span><span ng-if="!user.managerAccount">Не указан</span></div>
+					<div><label>Менеджер по продажам:</label></div>
+					<div class="grid-row"><span ng-bind="user.managerSale">...</span><span ng-if="!user.managerSale">Не указан</span></div>
+				</div>
+			</div>
+			<div class="grid-row col-md-6">
+				<div class="layout-info">
+					<div><label>Тариф:</label></div>
+					<div class="grid-row"><span ng-bind="user.tarif"></span></div>
+					<div><label>Состояние:</label></div>
+					<div class="grid-row">
+						<span ng-if="parseInt(user.BLOCKED)" class="text-error">Заблокирован</span>
+						<span ng-if="parseInt(user.BLOCKEDISSUE)" class="text-warning">Ожидается оплата</span>
+						<span ng-if="parseInt(user.INTESTING)" class="text-warning">Тестируется</span>
+						<span ng-if="!parseInt(user.INTESTING) && !parseInt(user.BLOCKEDISSUE) && !parseInt(user.BLOCKED)" class="text-success">Отличное</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4 right-layout">
+		<div class="col-md-6">
+			<h2 ng-bind="user.STAT.total">...</h2>
+			<span>подпичиков</span>
+			<h2 ng-bind="user.STAT.total">...</h2>
+			<span>тираз за месяц/отправлено писем</span>
+		</div>
+		<div class="col-md-6">
+			<h2 ng-bind="user.STAT['locked.hardbounced']">...</h2>
+			<span>hardbounced</span>
+			<h2 ng-bind="user.IssueDate || ...">...</h2>
+			<span>последний выпуск</span>
+		</div>
+	</div>
+</div>
+
+<div class="grid-row">
+	<pre>
+		{{userJSON}}
+	</pre>
+</div>

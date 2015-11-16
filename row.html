@@ -20,6 +20,35 @@
 [FELIS ELSE]
 [FELIS obj=#setarg name=bgcolor val=white]
 [FELIS ENDIF]
+
+<tr align="center">
+	<td>#</td>
+	<td>Domain</td>
+	<td>Куратор</td>
+	<td>Аккаунт-менеджер</td>
+	<td>Менеджер по продажам</td>
+	<td>Тариф</td>
+	<td>Получатель платежей</td>
+	<td>Состояние</td>
+	<td>Код</td>
+	<td>Название</td>
+	<td>Адрес</td>
+
+	<td>расход и лимит Транзакционных</td>
+	<td>расход и лимит Приглашений</td>
+	<td>расход и лимит БезКонфирма</td>
+
+	<td>Последний выпуск</td>
+
+	<td>Адресов</td>
+	<td>Тираж писем всего<br>раз/писем</td>
+	<td>Тираж последние три месяца</td>
+
+	<td>Телефонов</td>
+	<td>Тираж СМС всего<br>раз/сообщений/cмс/рублей</td>
+	<td>Тираж SMS последние три месяца</td>
+</tr>
+
 <TR>
 <TD bgcolor="[FELIS name=bgcolor]">[FELIS name=fid.N]</TD>
 <TD bgcolor="white">[FELIS name=fid val=DOMAIN]</TD>
@@ -28,15 +57,15 @@
 <TD bgcolor="white">[FELIS name=fid val=managerSale]</TD>
 <TD bgcolor="white">[FELIS obj=#setarg name=TARIF from=fid val=tarif][FELIS obj=#include name=include/tarif]</TD>
 <TD bgcolor="white">[FELIS name=fid val=paseDst]</TD>
-<TD bgcolor="white">[FELIS IF=fid name=INTESTING for=if]�����������[FELIS ENDIF] [FELIS IF=fid name=BLOCKED for=if]������������[FELIS ENDIF] [FELIS IF=fid name=BLOCKEDISSUE for=if]���&nbsp;������[FELIS ENDIF]</TD>
+<TD bgcolor="white">[FELIS IF=fid name=INTESTING for=if]Тестируется[FELIS ENDIF] [FELIS IF=fid name=BLOCKED for=if]Заблокирован[FELIS ENDIF] [FELIS IF=fid name=BLOCKEDISSUE for=if]Нет&nbsp;оплаты[FELIS ENDIF]</TD>
 <TD bgcolor="white">[FELIS name=fid val=ID]</TD>
 <TD bgcolor="white">[FELIS name=fid val=TITLE]</TD>
 
 <TD bgcolor="white"><A HREF="mailto:[FELIS name=fid val=ownerEmail]">[FELIS name=fid val=ownerEmail]</A></TD>
 
-<TD bgcolor="white">[FELIS name=fid val=_personal_usage] �� [FELIS name=fid val=_personal_limit]</TD> 
-<TD bgcolor="white">[FELIS name=fid val=_invite_usage] �� [FELIS name=fid val=_invite_limit]</TD> 
-<TD bgcolor="white">[FELIS name=fid val=_unconfirm_usage] �� [FELIS name=fid val=_unconfirm_limit]</TD> 
+<TD bgcolor="white">[FELIS name=fid val=_personal_usage] из [FELIS name=fid val=_personal_limit]</TD> 
+<TD bgcolor="white">[FELIS name=fid val=_invite_usage] из [FELIS name=fid val=_invite_limit]</TD> 
+<TD bgcolor="white">[FELIS name=fid val=_unconfirm_usage] из [FELIS name=fid val=_unconfirm_limit]</TD> 
 
 <TD bgcolor="white">[FELIS name=fid val=IssueDate]</TD>
 

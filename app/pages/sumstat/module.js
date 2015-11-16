@@ -2,7 +2,8 @@
 
  var AppSumstat = angular.module('app.sumstat', [
 	'ui.router',
-	'LocalStorageModule'
+	'LocalStorageModule',
+	'AppFilters'
 ])
 
 .config([
@@ -21,31 +22,33 @@
 				url: '/sumstat',
 	    		template: '<div class="ui-main-conteiner container-fluid" ui-view></div>',
 	    		resolve:  [
+	    			'$q',
 	                '$http',
 	                '$rootScope',
 	                '$state',
 	                '$stateParams',
 	                'localStorageService',
-	                function ($http, $rootScope, $state, $stateParams, localStorageService) {
+	                function ($q, $http, $rootScope, $state, $stateParams, localStorageService) {
+	                	
+	                	var deferred = $q.defer();
 
 	                    $rootScope.$state = $state;
 	                    $rootScope.$stateParams = $stateParams;
 	                    $rootScope.localStorage = localStorageService;
 
-	                   	$rootScope.userList = {};
-	                    $rootScope.userOrder = [];
+	                   	$rootScope.userList = [];
 	                    $rootScope.activeUsers = [];
 	                    $rootScope.blockedUsers = [];
-
-	                    // Избранные пользовтели
+						
+						// Избранные пользовтели
 	                    if(!localStorageService.get('favoriteUsers')) {
 	                    	$rootScope.favoriteUsers = [];
 	                    }else{
 	                    	$rootScope.favoriteUsers = (localStorageService.get('favoriteUsers')).split(',');
 	                    }
-	                    
+
 	                    $rootScope.isFavoriteUser = function(id) {
-	                    	return ($.inArray(id,$rootScope.favoriteUsers)!=-1);
+	                    	return ($.inArray(id, $rootScope.favoriteUsers)!=-1);
 	                    };
 
 	                    // Удаление пользователя из избранных
@@ -53,15 +56,20 @@
 	                    	var index = $.inArray(user.ID, $rootScope.favoriteUsers);
 	                    	if(index!=-1) {
 	                    		$rootScope.favoriteUsers.splice(index,1);
-	                    		localStorageService.set('favoriteUsers',$rootScope.favoriteUsers.join(','))
+	                    		localStorageService.set('favoriteUsers', $rootScope.favoriteUsers.join(','))
 	                    	}
 	                    });
-
-	                    return $http.get('sumstat.json').success(function(data) {
+	                    _log('$rootScope.favoriteUsers',$rootScope.favoriteUsers);
+	                    $http.get('sumstat.json').success(function(data) {
 	                    	
-	                        $rootScope.userOrder = data.map(function(user) {
+	                    	$rootScope.userList = data;
+	                    	$rootScope.userListLink = {};
+
+	                    	_log('$rootScope.userList', $rootScope.userList.length);
+
+	                        data.forEach(function(user, i) {
 	                        	
-	                        	$rootScope.userList[user.ID] = user;
+	                        	$rootScope.userListLink[user.ID] = i;
 
 	                            if (user.BLOCKED=="0") {
 	                                $rootScope.blockedUsers.push(user.ID);
@@ -69,11 +77,16 @@
 	                                $rootScope.activeUsers.push(user.ID);
 	                            }
 
-	                            return user.ID;
 	                        });
 	                        
+	                        // _log('userListLink', $rootScope.userListLink );
+
 	                        $rootScope.$emit('changeUserList');
+
+	                        deferred.resolve();
 	                    });
+
+	                    return deferred.promise;
 	                }
 	            ]
 	    	})
@@ -92,7 +105,8 @@
 				    '$scope',
 				    '$stateParams',
 				    function ($scope, $stateParams) {
-					    $scope.user = $scope.userList[$stateParams.userId];
+					    var index = $scope.userListLink[$stateParams.userId];
+        				$scope.user = $scope.userList[index];
 				    }]
 	    	})
 

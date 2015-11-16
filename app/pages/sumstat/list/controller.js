@@ -7,15 +7,11 @@ AppSumstat
     '$location',
     function ($scope, $rootScope, $location) {
         
-        var prepareData = function() {
-            var partSize = 20,
+        $scope.userCount = $rootScope.userList.length;
+        $scope.currentPage = $location.search().page || 1;
+        $scope.sortType = $location.search().sortType || null;
+        $scope.sortReverse = $location.search().sortReverse || null;
 
-                partStart = ($scope.currentPage - 1) * partSize,
-                partEnd = $scope.currentPage * partSize - 1;
-
-            $scope.userCount = $rootScope.userOrder.length;
-            $scope.usersShow = $rootScope.userOrder.slice(partStart, partEnd);
-        };
 
         $scope.favoriteUser = function(event, id) {
             $rootScope.$broadcast('favoriteUserChange', { 'ID': id });
@@ -23,13 +19,21 @@ AppSumstat
         
         $scope.pageChanged = function() {
             $location.search('page', $scope.currentPage);
-            prepareData();
         };
         
-        $rootScope.$on('changeUserList', prepareData);
+        $scope.$watch('sortType', function() {
+            $location.search('sortType', $scope.sortType);
+        });
 
-        $scope.currentPage = $location.search().page || 1;
+        $scope.$watch('sortReverse', function() {
 
-        prepareData();
+            $location.search('sortReverse', $scope.sortReverse?1:null);
+        });
+
+
+        $rootScope.$on('changeUserList', function() {
+            $scope.userCount = $rootScope.userList.length;
+        });
+        
     }
 ]);

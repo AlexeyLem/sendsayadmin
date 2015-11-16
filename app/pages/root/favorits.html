@@ -2,14 +2,14 @@
 	<i class="glyphicon glyphicon-star yellow icon-favorite" aria-hidden="true"></i>
 
 	<div class="btn-group btn-group-xs ui-favorite-item" ng-repeat="item in favoriteUsers">
-		<a ng-href="/sumstat/view/?user={{item}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-user "></i> {{userList[item].TITLE}}</a>
-		<button type="button" class="ui-favorites_remove-item btn btn-default btn-xs" ng-click="removeFromFavorites(item)" title='Удалить "{{userList[item].TITLE}}" из избранных'>&times;</button>
+		<a ng-href="/sumstat/view/?user={{item}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-user "></i> {{userList[userListLink[item]].TITLE}}</a>
+		<button type="button" class="ui-favorites_remove-item btn btn-default btn-xs" ng-click="removeFromFavorites(item)" title='Удалить "{{userList[userListLink[item]].TITLE}}" из избранных'>&times;</button>
 	</div>
 	<!--
 	<ul ng-if="favoriteUsers.length!=0">
 		<li ng-repeat="item in favoriteUsers">
-			<a ng-href="/sumstat/view/?user={{item}}"><i class="glyphicon glyphicon-user "></i> {{userList[item].TITLE}}</a>
-			<button type="button" class="ui-favorites_remove-item btn btn-default btn-mini" ng-click="removeFromFavorites(item)" title='Удалить "{{userList[item].TITLE}}" из избранных'><i class="glyphicon glyphicon-remove "></i></button>
+			<a ng-href="/sumstat/view/?user={{item}}"><i class="glyphicon glyphicon-user "></i> {{userList[userListLink[item]].TITLE}}</a>
+			<button type="button" class="ui-favorites_remove-item btn btn-default btn-mini" ng-click="removeFromFavorites(item)" title='Удалить "{{userList[userListLink[item]].TITLE}}" из избранных'><i class="glyphicon glyphicon-remove "></i></button>
 		</li>
 	</ul>
 	-->
