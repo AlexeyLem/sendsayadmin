@@ -1,20 +1,23 @@
 
 
 <div class="ui-tab-content">
-	<div class="col-md-8">
+	<div class="col-sm-8">
 		
-		<header class="grid-row inline">
-			<h3 ng-bind="user.TITLE"></h3>		
+		<div class="info-header">
+			<div class="col-xs-12">
+				<h4 ng-bind="user.TITLE"></h4>
 			
-			<h4>({{user.ID}})</h4>
-			
-			<big ng-if="parseInt(user.BLOCKED)" class="error">Заблокирован</big>
-			<big ng-if="parseInt(user.BLOCKEDISSUE)" class="warning">Ожидается оплата</big>
-			<big ng-if="parseInt(user.INTESTING)" class="warning">Тестируется</big>
-			
-		</header>
-		<div class="row">
-			<div class="grid-row col-md-6">
+				<div class="pull-right">
+					<big ng-if="parseInt(user.BLOCKED)" class="error">Заблокирован</big>
+					<big ng-if="parseInt(user.BLOCKEDISSUE)" class="warning">Ожидается оплата</big>
+					<big ng-if="parseInt(user.INTESTING)" class="warning">Тестируется</big>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="grid-row">
+			<div class="grid-row col-sm-6">
 				<div class="layout-info">
 					<div><label>Куратор:</label></div>
 					<div class="grid-row"><span ng-bind="user.CURATOR"></span></div>
@@ -24,10 +27,12 @@
 					<div class="grid-row"><span ng-bind="user.managerSale">...</span><span ng-if="!user.managerSale">Не указан</span></div>
 				</div>
 			</div>
-			<div class="grid-row col-md-6">
+			<div class="grid-row col-sm-6">
 				<div class="layout-info">
 					<div><label>Тариф:</label></div>
-					<div class="grid-row"><span ng-bind="user.tarif"></span></div>
+					<div class="grid-row">
+						<tarif-info code="{{user.tarif}}" option="name"></tarif-info>
+					</div>
 					<div><label>Состояние:</label></div>
 					<div class="grid-row">
 						<span ng-if="parseInt(user.BLOCKED)" class="text-error">Заблокирован</span>
@@ -35,29 +40,84 @@
 						<span ng-if="parseInt(user.INTESTING)" class="text-warning">Тестируется</span>
 						<span ng-if="!parseInt(user.INTESTING) && !parseInt(user.BLOCKEDISSUE) && !parseInt(user.BLOCKED)" class="text-success">Отличное</span>
 					</div>
+					<div><label>Активен до:</label></div>
+					<div class="grid-row"><span>...</span></div>
 				</div>
 			</div>
 		</div>
+
+		<div class="grid-row">
+			<div class="grid-row col-sm-6">
+				<div class="layout-info">
+					<div><label>Сервер:</label></div>
+					<div class="grid-row"><span ng-bind="user.DOMAIN"></span></div>
+					<div><label>Адрес:</label></div>
+					<div class="grid-row"><span ng-bind="user.ownerEmail"></span></div>
+				</div>
+			</div>
+			<div class="grid-row col-sm-6">
+				<div class="layout-info">
+					<div><label>Последний платеж:</label></div>
+					<div class="grid-row"><span>...</span></div>
+					<div><label>Счет на сумму:</label></div>
+					<div class="grid-row"><span>...</span></div>
+					<div><label>Получатель платежей:</label></div>
+					<div class="grid-row"><span>...</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-row">
+			<div class="grid-row col-sm-6">
+				<div class="layout-info">
+					<div><label>ФИО клиента:</label></div>
+					<div class="grid-row"><span>...</span></div>
+					<div><label>Контакты:</label></div>
+					<div class="grid-row"><span>...</span></div>
+				</div>
+			</div>
+			<div class="grid-row col-sm-6">
+				<div class="layout-info">
+					<div><label>Комментарий:</label></div>
+					<div class="grid-row"><span>...</span></div>
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-row col-xs-12">
+			<pre>
+				{{userJSON}}
+			</pre>
+		</div>
 	</div>
 
-	<div class="col-md-4 right-layout">
-		<div class="col-md-6">
-			<h2 ng-bind="user.STAT.total">...</h2>
-			<span>подпичиков</span>
-			<h2 ng-bind="user.STAT.total">...</h2>
-			<span>тираз за месяц/отправлено писем</span>
+	<div class="col-sm-4 right-layout">
+		<div class="collected-info">
+			<div class="col-md-6">
+				<div class="grid-row">
+					<h2 ng-bind="user.STAT.total">...</h2>
+					<span>подпичиков</span>
+				</div>
+				<div class="grid-row">
+					<h2 ng-bind="user.STAT.total">...</h2>
+					<span>тираж за месяц/отправлено писем</span>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="grid-row">
+					<h2 ng-bind="user.STAT['locked.hardbounced']">...</h2>
+					<span>hardbounced</span>
+				</div>
+				<div class="grid-row">
+					<h4 ng-bind="user.IssueDate | amDateFormat:'DD MMMM YYYY'"></h4>
+					<h4 ng-bind="user.IssueDate | amDateFormat:'HH:mm:ss'"></h4>
+					<span>последний выпуск</span>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-6">
-			<h2 ng-bind="user.STAT['locked.hardbounced']">...</h2>
-			<span>hardbounced</span>
-			<h2 ng-bind="user.IssueDate || ...">...</h2>
-			<span>последний выпуск</span>
-		</div>
+
 	</div>
+
 </div>
 
-<div class="grid-row">
-	<pre>
-		{{userJSON}}
-	</pre>
-</div>

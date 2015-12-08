@@ -51,13 +51,13 @@
 
 <TR>
 <TD bgcolor="[FELIS name=bgcolor]">[FELIS name=fid.N]</TD>
-<TD bgcolor="white">[FELIS name=fid val=DOMAIN]</TD>
-<TD bgcolor="white">[FELIS name=fid val=CURATOR]</TD>
-<TD bgcolor="white">[FELIS name=fid val=managerAccount]</TD>
-<TD bgcolor="white">[FELIS name=fid val=managerSale]</TD>
-<TD bgcolor="white">[FELIS obj=#setarg name=TARIF from=fid val=tarif][FELIS obj=#include name=include/tarif]</TD>
-<TD bgcolor="white">[FELIS name=fid val=paseDst]</TD>
-<TD bgcolor="white">[FELIS IF=fid name=INTESTING for=if]Тестируется[FELIS ENDIF] [FELIS IF=fid name=BLOCKED for=if]Заблокирован[FELIS ENDIF] [FELIS IF=fid name=BLOCKEDISSUE for=if]Нет&nbsp;оплаты[FELIS ENDIF]</TD>
+<TD bgcolor="white">[FELIS name=fid val=DOMAIN]</TD>  <!-- Domain -->
+<TD bgcolor="white">[FELIS name=fid val=CURATOR]</TD> <!-- Куратор -->
+<TD bgcolor="white">[FELIS name=fid val=managerAccount]</TD> <!-- Аккаунт-менеджер -->
+<TD bgcolor="white">[FELIS name=fid val=managerSale]</TD> <!-- Менеджер по продажам -->
+<TD bgcolor="white">[FELIS obj=#setarg name=TARIF from=fid val=tarif][FELIS obj=#include name=include/tarif]</TD> <!-- Тариф -->
+<TD bgcolor="white">[FELIS name=fid val=paseDst]</TD> <!-- Получатель платежей -->
+<TD bgcolor="white">[FELIS IF=fid name=INTESTING for=if]Тестируется[FELIS ENDIF] [FELIS IF=fid name=BLOCKED for=if]Заблокирован[FELIS ENDIF] [FELIS IF=fid name=BLOCKEDISSUE for=if]Нет&nbsp;оплаты[FELIS ENDIF]</TD> 
 <TD bgcolor="white">[FELIS name=fid val=ID]</TD>
 <TD bgcolor="white">[FELIS name=fid val=TITLE]</TD>
 

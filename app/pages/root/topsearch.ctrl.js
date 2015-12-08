@@ -5,8 +5,6 @@ App.controller('TopSearchCtrl', [
     '$location',
     function($scope, $state, $rootScope, $location) {
 
-	_log('topSearchCtrl ...');
-
 	$scope.searchlist = [
 		{
 			'name': 'chrights',
@@ -29,7 +27,7 @@ App.controller('TopSearchCtrl', [
 	};
 
 	$scope.$watch('searchInput', function(data) {
-
+		_log('searchInput', data);
 	});
 
     $scope.searchSection = 0;

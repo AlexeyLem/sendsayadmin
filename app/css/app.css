@@ -7,13 +7,15 @@ body {
 }
 
 #logo {
-    float: left;
-    width: 21px;
-    height: 24px;
-    width: 60px;
-    padding: 2px 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 56px;
+    width: 80px;
+    padding: 15px 25px;
     text-align: center;
     color: #ab1347;
+    background-color: white;
 }
 
 .icon_logo {
@@ -28,7 +30,7 @@ body {
     top: 0;
     left: 0;
     z-index: 904;
-    padding-top: 55px;
+    padding-top: 56px;
      width: 80px;
 }
 
@@ -66,12 +68,34 @@ body {
 .ui-main-conteiner {
     margin-left: 80px;
     background-color: #ffffff;
-    padding: 15px 0px 15px 15px;
+}
+
+.ui-main-conteiner header {
+    background-color: #efefef;
+    height: 60px;
+    padding: 15px;
+ }
+
+.ui-section-name {
+    top: -5px;
+    position: relative;
+    color: @brand-primary;
+}
+
+.ui-top-stat-panel {
+    top: 5px;
+    position: relative;
+    margin-right: 20px;
+}
+
+.ui-top-stat big {
+    font-size: 18px;
 }
 
 .ui-top {
     padding: 10px;
-    background-color: #efefef;
+    background-color: #fff;
+    margin-left: 80px;
 }
 .icon-favorite {
     font-size: 20px;
@@ -201,11 +225,17 @@ label {
 
 .right-layout {
     background-color: #efefef;
+    padding-bottom: 10px;
 }
 
 .right-layout:after {
     content: " ";
+    display: table;
     clear: both;
+}
+
+.right-layout .collected-info * {
+    text-align: center;
 }
 
 .ui-tab-content header {
@@ -225,5 +255,60 @@ label {
 
 .ui-tab-content:after {
     content: " ";
+    display: table;
     clear: both;
+}
+
+table thead a:hover, table thead a:focus {
+    text-decoration: none;
+}
+
+table thead .icon {
+    font-size: 11px;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.info-header {
+    display: block;
+    margin-top: 10px;
+}
+
+.info-header:after {
+    content: " ";
+    display: table;
+    clear: both;
+}
+.info-header:before {
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+.ui-top-tabs {
+    padding-top: 19px;
+    background-color: #efefef;
+}
+
+.ui-top-tabs:after {
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+.ui-table-dropdown .ui-table-dropdown-item {
+    padding: 4px 10px;
+    display: block;
+    color: black;
+}
+
+.ui-table-dropdown .ui-table-dropdown-item input[type="checkbox"] {
+    position: relative;
+    top: 1px;
+}
+
+.ui-table-dropdown-checked * {
+    color: black;
 }

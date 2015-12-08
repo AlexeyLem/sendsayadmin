@@ -20,7 +20,7 @@
 	    	.state('sumstat', {
 	    		abstract: true,
 				url: '/sumstat',
-	    		template: '<div class="ui-main-conteiner container-fluid" ui-view></div>',
+	    		template: '<div class="ui-main-conteiner" ui-view></div>',
 	    		resolve:  [
 	    			'$q',
 	                '$http',
@@ -116,4 +116,4 @@
 	    		controller: 'SumstatUserViewCtrl'
 	    	});
     }
- ])
+ ]);

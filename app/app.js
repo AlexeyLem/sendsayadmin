@@ -1,12 +1,17 @@
 'use strict';
 
 var App = angular.module("app", [
+	
 	'app.sumstat',
 	'ui.bootstrap',
 	'ui.router',
 	'LocalStorageModule',
-	'ngAnimate'
-]);
+	'ngAnimate',
+	'angularMoment'
+
+]).run(['amMoment',function(amMoment) {
+	amMoment.changeLocale('ru');
+}]);
 
 function _log() {
 	var m = arguments.length;

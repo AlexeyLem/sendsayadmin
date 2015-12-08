@@ -1,48 +1,61 @@
-<div class="grid-row">
+<header class="grid-row">
     <div class="pull-left">
-        <h4>Все аккаунты (<span ng-bind="userList.length">...</span>)</h4>
+        <h4 class="ui-section-name">Все аккаунты (<span ng-bind="userList.length">...</span>)</h4>
     </div>
 
-    <div class="pull-right">
-        <label ng-bind="userList.length" class="text-primary">...</label>
+    <div class="pull-right ui-top-stat-panel">
+        <big ng-bind="userList.length" class="text-primary">...</big>
         <small class="note-up">аккаунтов</small>
         &nbsp;
-        <label ng-bind="activeUsers.length" class="text-success">...</label>
+        <big ng-bind="activeUsers.length" class="text-success">...</big>
         <small class="note-up">активно</small>
         &nbsp;
-        <label ng-bind="blockedUsers.length" class="text-danger">...</label>
+        <big ng-bind="blockedUsers.length" class="text-danger">...</big>
         <small class="note-up">заблокировано</small>
     </div>
+</header>
 
-
-</div>
-<div class="grid-row">
+<div class="grid-row container-fluid">
     <table class="table table-hover">
         <thead>
             <tr>
-                <td class="min"></td>
-                <th>
-                    <a href="#" ng-click="sortType = 'ID'; sortReverse = !sortReverse">
+                <td class="min">&nbsp;</td>
+                <td>
+                    <a href="#" ng-click="changeSort('ID')">
                         Логин
-                        <span ng-show="sortType == 'ID' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType == 'ID' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                        <span ng-show="sortType == 'ID' && !sortReverse" class="icon glyphicon glyphicon-chevron-down"></span>
+                        <span ng-show="sortType == 'ID' && sortReverse" class="icon glyphicon glyphicon-chevron-up"></span>
                     </a>
 
-                </th>
+                </td>
 
-                <th>
-                    <a href="#" ng-click="sortType = 'TITLE'; sortReverse = !sortReverse">
+                <td>
+                    <a href="#" ng-click="changeSort('TITLE')">
                         Название
-                        <span ng-show="sortType == 'TITLE' && !sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType == 'TITLE' && sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                        <span ng-show="sortType == 'TITLE' && !sortReverse" class="icon glyphicon glyphicon-chevron-down"></span>
+                        <span ng-show="sortType == 'TITLE' && sortReverse" class="icon glyphicon glyphicon-chevron-up"></span>
                     </a>
-                </th>
-                <th>Состояние</th>
-                <th>Куратор</th>
-                <th>Сервер</th>
-                <th>Срок Активности</th>
-                <th>Последнее ...</th>
-                <th>...</th>
+                </td>
+                <td>Состояние</td>
+                <td>Куратор</td>
+                <td>Сервер</td>
+                <td>
+                    <uib-dropdown  class="ui-table-dropdown" auto-close="outsideClick">
+                        <a href id="ui-accountstable-dropdown" uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-option-vertical"></span>
+                        </a>
+                        <ul class="uib-dropdown-menu pull-right" aria-labelledby="ui-accountstable-dropdown">
+                            <li class="dropdown-header">
+                                Вывести колонки 
+                            </li>
+                            <li ng-repeat="item in tableCols" class="ui-table-dropdown-item">
+                                <label data-item="{{item.key}}">
+                                  <input type="checkbox"  ng-click="checkOnDrop($event,item.key)"> {{item.name}}
+                                </label>
+                            </li>
+                        </ul>
+                    </uib-dropdown>
+                </td>
             </tr>
         </thead>
         <tbody>
@@ -59,10 +72,18 @@
                 <td ng-bind="userItem.BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="userItem.CURATOR"></td>
                 <td ng-bind="userItem.DOMAIN"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                    <uib-dropdown id="fn-account-row_dropdown-{{userItem.ID}}"  class="ui-table-dropdown">
+                        <a href uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-option-horizontal"></span>
+                        </a>
+                        <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="fn-account-row_dropdown-{{userItem.ID}}">
+                            <li role="menuitem"><a target="_blank" href="#">Перейти к defer</a></li>
+                            <li role="menuitem"><a target="_blank" href="#">Перейти к chenv</a></li>
+                            <li class="disabled"><a>Перейти к chrughts</a></li>
+                        </ul>
+                    </uib-dropdown>
+                </td>
             </tr>
         </tbody>
     </table>
