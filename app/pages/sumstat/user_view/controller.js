@@ -14,10 +14,11 @@ AppSumstat
                 return $scope.userList[$stateParams.user];
             }]
         }
-        */
-        var index = $scope.userListLink[$stateParams.userId];
         
-	    $scope.user = $scope.userList[index];
+        var index = $scope.userListLink[$stateParams.userId];
+        */
+
+	    $scope.user = $scope.userList[$stateParams.userId];
 	    $scope.userJSON = JSON.stringify($scope.user)
 	    	.replace(/\,/ig,",\n")
 	    	.replace(/\{/ig,"{\n")

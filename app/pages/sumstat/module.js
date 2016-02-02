@@ -7,15 +7,19 @@
 ])
 
 .config([
+	
 	'$stateProvider',
+	'$httpProvider',
 	'$urlRouterProvider',
 	'$locationProvider',
 	'localStorageServiceProvider',
-    function ($stateProvider, $urlRouterProvider, $locationProvider, localStorageServiceProvider) {
+
+    function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, localStorageServiceProvider) {
     	_log('app.sumstat config ...');
     	
     	$urlRouterProvider.when('/sumstat/','/sumstat');
-
+    	$httpProvider.defaults.useXDomain = true;
+    	
     	$stateProvider
 	    	.state('sumstat', {
 	    		abstract: true,
@@ -30,6 +34,17 @@
 	                'localStorageService',
 	                function ($q, $http, $rootScope, $state, $stateParams, localStorageService) {
 	                	
+
+	                	$http.defaults.headers.put = {
+					        'Access-Control-Allow-Origin': '*',
+					        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+					        'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+				        };
+
+				        $http.defaults.useXDomain = true;
+				        
+				        delete $http.defaults.headers.common['X-Requested-With'];
+
 	                	var deferred = $q.defer();
 
 	                    $rootScope.$state = $state;
@@ -59,32 +74,47 @@
 	                    		localStorageService.set('favoriteUsers', $rootScope.favoriteUsers.join(','))
 	                    	}
 	                    });
-	                    _log('$rootScope.favoriteUsers',$rootScope.favoriteUsers);
-	                    $http.get('sumstat.json').success(function(data) {
-	                    	
-	                    	$rootScope.userList = data;
-	                    	$rootScope.userListLink = {};
 
-	                    	_log('$rootScope.userList', $rootScope.userList.length);
-
-	                        data.forEach(function(user, i) {
-	                        	
-	                        	$rootScope.userListLink[user.ID] = i;
-
-	                            if (user.BLOCKED=="0") {
-	                                $rootScope.blockedUsers.push(user.ID);
-	                            }else{
-	                                $rootScope.activeUsers.push(user.ID);
-	                            }
-
-	                        });
-	                        
-	                        // _log('userListLink', $rootScope.userListLink );
-
-	                        $rootScope.$emit('changeUserList');
-
-	                        deferred.resolve();
+	                    _log('$rootScope.favoriteUsers', $rootScope.favoriteUsers);
+	                    
+	                    var _apiRequest_ = apiRequest({
+	                    	"action": "account.sumstat"
 	                    });
+
+	                    _log();
+
+	                    $http(_apiRequest_)
+
+	                    .success(function(data) {
+
+		                	    var len = Object.keys(data.list).length;
+		                    	
+		                    	$rootScope.userList = data;
+		                    	$rootScope.userListLink = {};
+
+		                    	_log('$rootScope.userList', Object.keys(data.list).length);
+
+		                    	if(data.list && len) {
+
+		                    		for(var key in data.list) {
+
+			                            if (user.BLOCKED=="0") {
+			                                $rootScope.blockedUsers.push(user.ID);
+			                            }else{
+			                                $rootScope.activeUsers.push(user.ID);
+			                            }
+
+		                    		}
+			                        // _log('userListLink', $rootScope.userListLink );
+		                    	}
+
+		                    	$rootScope.$emit('changeUserList');
+		                        deferred.resolve();
+		                    })
+
+		                    .error(function(data, status, headers, config) {
+
+		                    });
 
 	                    return deferred.promise;
 	                }

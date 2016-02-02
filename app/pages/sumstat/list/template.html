@@ -1,6 +1,6 @@
 <header class="grid-row">
     <div class="pull-left">
-        <h4 class="ui-section-name">Все аккаунты (<span ng-bind="userList.length">...</span>)</h4>
+        <h4 class="ui-section-name">Все аккаунты (<span ng-bind="Object.keys(userList).length">...</span>)</h4>
     </div>
 
     <div class="pull-right ui-top-stat-panel">
@@ -59,25 +59,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="userItem in userList | orderBy:sortType:sortReverse | sumstatPaginationFilter:currentPage:20"  class="{{isFavoriteUser(userItem.ID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
+            <tr ng-repeat="(userID, userItem) in userList | orderBy:sortType:sortReverse | sumstatPaginationFilter:currentPage:20"  class="{{isFavoriteUser(userID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
                 <td>
-                    <a ng-if="!isFavoriteUser(userItem.ID)" class="ui-favorite-add" href="javascript:void(0);" ng-click="favoriteUser($event, userItem.ID)" aria-hidden="true" title="Добавить в избранные">
+                    <a ng-if="!isFavoriteUser(userItem.ID)" class="ui-favorite-add" href="javascript:void(0);" ng-click="favoriteUser($event, userID)" aria-hidden="true" title="Добавить в избранные">
                         <i class="glyphicon glyphicon-star default"></i>
                     </a>
-                    <i ng-if="isFavoriteUser(userItem.ID)" class="glyphicon glyphicon-star yellow"></i>
+                    <i ng-if="isFavoriteUser(userID)" class="glyphicon glyphicon-star yellow"></i>
                 </td>
-                <td><a ui-sref="sumstat.view.detail({ userId: '{{userItem.ID}}' })" >{{userItem.ID}}</a></td>
+                <td><a ui-sref="sumstat.view.detail({ userId: '{{userID}}' })" >{{userID}}</a></td>
 
                 <td ng-bind="userItem.TITLE"></td>
                 <td ng-bind="userItem.BLOCKED=='0'?'Заблокирован': 'Активен'"></td>
                 <td ng-bind="userItem.CURATOR"></td>
                 <td ng-bind="userItem.DOMAIN"></td>
                 <td>
-                    <uib-dropdown id="fn-account-row_dropdown-{{userItem.ID}}"  class="ui-table-dropdown">
+                    <uib-dropdown id="fn-account-row_dropdown-{{userID}}"  class="ui-table-dropdown">
                         <a href uib-dropdown-toggle>
                             <span class="glyphicon glyphicon-option-horizontal"></span>
                         </a>
-                        <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="fn-account-row_dropdown-{{userItem.ID}}">
+                        <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="fn-account-row_dropdown-{{userID}}">
                             <li role="menuitem"><a target="_blank" href="#">Перейти к defer</a></li>
                             <li role="menuitem"><a target="_blank" href="#">Перейти к chenv</a></li>
                             <li class="disabled"><a>Перейти к chrughts</a></li>
