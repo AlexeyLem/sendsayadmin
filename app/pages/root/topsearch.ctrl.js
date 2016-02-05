@@ -35,6 +35,6 @@ App.controller('TopSearchCtrl', [
     $scope.setSection = function(event, index) {
         $scope.searchSection = index;
         event.preventDefault();
-        _log('setSection arguments:', arguments)
+        _log('setSection arguments:', arguments);
     };
 }])

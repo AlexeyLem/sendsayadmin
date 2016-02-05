@@ -21,23 +21,4 @@ function _log() {
 		}
 	}
 
-};
-
-function apiPath() {
-
-	return 'https://test.sendsay.ru/admin/api/';
-
-}
-
-function apiRequest(a) {
-
-	return {
-	    	"method": "POST",
-	    	"url": apiPath(),
-	    	"data": {
-	    		"request": a,
-	    		"apiversion": 100,
-	            "json": 1
-	    	}
-	    };
 }

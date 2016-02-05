@@ -1,16 +1,26 @@
-'use strict';
-
 AppSumstat
 .controller('SumstatListCtrl', [
     '$scope',
     '$rootScope',
     '$location',
-    function ($scope, $rootScope, $location) {
+    'Api',
+    function ($scope, $rootScope, $location, api) {
+        /*
+        api.request({
+
+            "action": "account.sumstat"
         
+        }).then(function(data) {
+
+            _log('Api Request:', data);
+
+        });
+        */
         $scope.userCount = $rootScope.userList.length;
         $scope.currentPage = $location.search().page || 1;
         $scope.sortType = $location.search().sortType || 'ID';
         $scope.sortReverse = $location.search().sortReverse || false;
+
         $scope.changeSort = function(type) {
             $scope.sortReverse = ($scope.sortType != type? 0: !$scope.sortReverse )
             $scope.sortType = type;

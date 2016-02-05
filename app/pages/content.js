@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module("content", [ 'sumstat', 'ui.router' ])
 
 .config([

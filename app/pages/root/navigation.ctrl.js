@@ -1,4 +1,3 @@
-
 App.controller('NavogationCtrl', [
 	'$scope',
 	'$location',

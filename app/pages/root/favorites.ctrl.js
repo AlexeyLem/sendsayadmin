@@ -4,8 +4,11 @@ App.controller('favoritesCtrl', [
     function ($scope, $rootScope) {
 
         $scope.removeFromFavorites = function(id) {
-        	_log('removeFromFavorites: '+id)
+        	
+            _log('removeFromFavorites: '+id);
+
             $scope.$emit('removeFromFavorites', { ID: id });
+        
         };
 
         $scope.showDrop = function() {

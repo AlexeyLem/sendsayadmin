@@ -31,6 +31,8 @@
 	<script src="libs/moment/locale/ru.js"></script>
 
 	<script src="app.js"></script>
+	<script src="services/auth.js"></script>
+	<script src="services/api.js"></script>
 	<script src="pages/root/config.js"></script>
 	<script src="pages/root/main.ctrl.js"></script>
 	<script src="pages/root/favorites.ctrl.js"></script>
@@ -47,42 +49,53 @@
 </head>
 
 <body ng-cloak>
-	<!--[if lt IE 8]>
-					<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
-	<!-- 
-    <pre>
-      $state = {{$state.current.name}}
-      $stateParams = {{$stateParams}}
-      $state full url = {{ $state.$current.url.source }}
-    </pre>
- -->
-	<header class="ui-top">
-		<div class="clearfix">
-			<div class="col-sm-5 inline">
-				<ng-include
-					src="'pages/root/top_search.html'"
-					ng-controller="TopSearchCtrl"
-				></ng-include>
+	<div  ng-if="isAuthenticated">
+		<!--[if lt IE 8]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+		<!-- 
+	    <pre>
+	      $state = {{$state.current.name}}
+	      $stateParams = {{$stateParams}}
+	      $state full url = {{ $state.$current.url.source }}
+	    </pre>
+	 	-->
+		<header class="ui-top">
+			<div class="clearfix">
+				<div class="col-sm-5 inline">
+					<ng-include
+						src="'pages/root/top_search.html'"
+						ng-controller="TopSearchCtrl"
+					></ng-include>
+				</div>
+				<div class="col-sm-7 inline">
+					<ng-include
+						src="'pages/root/favorits.html'"
+						class="animation-left"
+						ng-controller="favoritesCtrl"
+					></ng-include>
+				</div>
 			</div>
-			<div class="col-sm-7 inline">
-				<ng-include
-					src="'pages/root/favorits.html'"
-					class="animation-left"
-					ng-controller="favoritesCtrl"
-				></ng-include>
-			</div>
-		</div>
-	</header>
+		</header>
 
-	<ng-include src="'pages/root/logo.html'"></ng-include>
+		<ng-include src="'pages/root/logo.html'"></ng-include>
 
-	<ng-include 
-		src="'pages/root/navigation.html'" 
-		class="animation-left"
-		ng-controller="NavogationCtrl"
-	></ng-include>
+		<ng-include 
+			src="'pages/root/navigation.html'" 
+			class="animation-left"
+			ng-controller="NavogationCtrl"
+		></ng-include>
 
-	<div ui-view class="animation-fade"></div>
+		<div ui-view class="animation-fade"></div>
+	</div>
+
+	<div ng-if="!isAuthenticated">
+		<ng-include 
+			src="'pages/auth/template.html'" 
+			class="animation-left"
+		></ng-include>
+	</div>
+
 </body>
+
 </html>

@@ -1,5 +1,3 @@
-'use strict';
-
 AppSumstat
 .controller('SumstatUserViewCtrl', [
     '$scope',
