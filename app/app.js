@@ -28,15 +28,6 @@ var App = angular.module("app", [
 
 		$rootScope.user = null;
 
-		// Здесь мы будем проверять авторизацию
 		
-		/*
-		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-			
-			_log('Event $stateChangeStart ... ');
-
-			Auth.checkAccess(event, toState, toParams, fromState, fromParams);
-		});
-		*/
 	}
 ]);

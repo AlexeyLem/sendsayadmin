@@ -13,7 +13,7 @@
 	'localStorageServiceProvider',
 
     function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, localStorageServiceProvider) {
-    	
+
     	_log('app.sumstat config ...');
     	
     	$urlRouterProvider.when('/sumstat/','/sumstat');
@@ -39,81 +39,64 @@
 				        // _log('$http.defaults.headers:', $http.defaults.headers);
 
 	                   	$rootScope.userList = [];
+	                   	$rootScope.userList_keyLink = {};
 	                    $rootScope.activeUsers = [];
 	                    $rootScope.blockedUsers = [];
 						
 						// Избранные пользовтели
-	                    if(!$rootScope.localStorage.get('favoriteUsers')) {
+	                    if(!$rootScope.localStorage.get('sumstat_favoriteUsers')) {
 	                    	$rootScope.favoriteUsers = [];
 	                    }else{
-	                    	$rootScope.favoriteUsers = ($rootScope.localStorage.get('favoriteUsers')).split(',');
+	                    	$rootScope.favoriteUsers = ($rootScope.localStorage.get('sumstat_favoriteUsers')).split(',');
 	                    }
 
-	                    $rootScope.isFavoriteUser = function(id) {
-	                    	return ($.inArray(id, $rootScope.favoriteUsers)!=-1);
-	                    };
-
-	                    // Удаление пользователя из избранных
-	                    $rootScope.$on('removeFromFavorites', function(event, user) {
-	                    	var index = $.inArray(user.ID, $rootScope.favoriteUsers);
-	                    	if(index!=-1) {
-	                    		$rootScope.favoriteUsers.splice(index,1);
-	                    		$rootScope.localStorage.set('favoriteUsers', $rootScope.favoriteUsers.join(','))
-	                    	}
-	                    });
-
-	                    _log('$rootScope.favoriteUsers', $rootScope.favoriteUsers);
-
 	                    var _listHandler = function(data) {
-	                    	var len = Object.keys(data.list).length;
-		                    	
-		                    	$rootScope.userList = data;
-		                    	$rootScope.userListLink = {};
 
-		                    	_log('$rootScope.userList', Object.keys(data.list).length);
+	                    	// _log('Api Request:', data);
 
-		                    	if(data.list && len) {
+	                    	var len = Object.keys(data.list).length,
+	                    		uList = [];
 
-		                    		for(var key in data.list) {
+	                    	$rootScope.userList = [];
+	                    	$rootScope.userListLink = {};
+	                    	$rootScope.userCount = len;
 
-			                            if (user.BLOCKED=="0") {
-			                                $rootScope.blockedUsers.push(user.ID);
-			                            }else{
-			                                $rootScope.activeUsers.push(user.ID);
-			                            }
+	                    	_log('$rootScope.userCount: '+ Object.keys(data.list).length);
 
-		                    		}
-			                        // _log('userListLink', $rootScope.userListLink );
-		                    	}
+	                    	if(data.list && len) {
 
-		                    	$rootScope.$emit('changeUserList');
-		                        deferred.resolve();
-		                    };
+	                    		for(var key in data.list) {
+	                    			
+	                    			var user = data.list[key];
+	                    			
+	                    			$rootScope.userList_keyLink[key] = uList.push(user) -1;
 
-						_log('Api.request ...', Api);
+		                            if (user.BLOCKED=="0") {
+		                                $rootScope.blockedUsers.push(user.ID);
+		                            }else{
+		                                $rootScope.activeUsers.push(user.ID);
+		                            }
+
+	                    		}
+
+	                    		$rootScope.userList = uList;
+
+	                    	}
+
+	                    	$rootScope.$emit('changeUserList');
+
+	                        deferred.resolve();
+		                
+		                };
+
+						// _log('Api.request ...', Api);
 
 						Api.request({
 
 	                    	"action": "account.sumstat"
 	                    
-	                    }).then(function(data) {
-
- 							_log('Api Request:', data);
-
-						});
-
-						/*
-	                    $http.post(apiPath(), _apiRequest_)
-	                    
-	                    .success(function(data) {
-
-		                	    
-		                    })
-
-		                 .error(function(data, status, headers, config) {
-
-		                    });
-		                 */
+	                    }).then(_listHandler);
+						
 	                    return deferred.promise;
 	                }
 	            ]

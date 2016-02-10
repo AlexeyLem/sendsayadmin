@@ -1,0 +1,19 @@
+<div ng-controller="AuthCtrl" class="clearfix" style="width: 600px; margin: 40px auto; background-color: #efefef;padding: 40px 20px 20px; border-radius: 3px;">
+	<form class="form-horizontal">
+		<div class="form-group form-group-lg" ng-class="{'has-error': loginError }">
+			<div class="col-sm-12">
+				<input class="form-control" ng-model="loginModel" type="text" id="login" placeholder="Логин" ng-keypress="keyAuth($event)" />
+			</div>
+		</div>
+		<div class="form-group form-group-lg" ng-class="{'has-error': passwordError }">
+			<div class="col-sm-12">
+				<input class="form-control" ng-model="passwordModel" type="password" id="password" placeholder="Пароль" ng-keypress="keyAuth($event)" />
+			</div>
+		</div>
+
+		<div class="pull-right">
+			<button type="button" class="btn btn-primary btn-lg" ng-click="Auth($event)">Вход</button>
+		</div>
+
+	</form>
+<div>

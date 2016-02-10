@@ -4,56 +4,15 @@ AppSumstat
     '$rootScope',
     '$location',
     'Api',
+    'SumstatFavorites',
+
     function ($scope, $rootScope, $location, api) {
-        /*
-        api.request({
 
-            "action": "account.sumstat"
-        
-        }).then(function(data) {
-
-            _log('Api Request:', data);
-
-        });
-        */
         $scope.userCount = $rootScope.userList.length;
         $scope.currentPage = $location.search().page || 1;
         $scope.sortType = $location.search().sortType || 'ID';
         $scope.sortReverse = $location.search().sortReverse || false;
 
-        $scope.changeSort = function(type) {
-            $scope.sortReverse = ($scope.sortType != type? 0: !$scope.sortReverse )
-            $scope.sortType = type;
-        }
-
-        $scope.favoriteUser = function(event, id) {
-            $rootScope.$broadcast('favoriteUserChange', { 'ID': id });
-        };
-        
-        $scope.pageChanged = function() {
-            $location.search('page', $scope.currentPage);
-        };
-        
-        $scope.$watch('sortType', function() {
-            $location.search('sortType', $scope.sortType);
-        });
-
-        $scope.$watch('sortReverse', function() {
-            $location.search('sortReverse', $scope.sortReverse?1:null);
-        });
-
-        $scope.checkOnDrop = function(event, key) {
-
-            var item = $(event.currentTarget).parents('.ui-table-dropdown-item'),
-                isChecked = event.currentTarget.checked;
-            
-            item[(isChecked?'add':'remove')+'Class']('ui-table-dropdown-checked');
-        };
-
-        $rootScope.$on('changeUserList', function() {
-            $scope.userCount = $rootScope.userList.length;
-        });
-        
         $scope.showAdvCols = {};
 
         $scope.tableCols = [
@@ -65,8 +24,68 @@ AppSumstat
             { key: 'memberCount', name: 'Адресов в базе', 'checked': 0 }
         ];
 
-        angular.forEach($scope.tableCols , function(value, key){
+        angular.forEach($scope.tableCols , function(value, key) {
             $scope.showAdvCols[value.key] = 0;
         });
+
+        /* BEGIN Functions */
+
+        $scope.changeSort = function(type) {
+            $scope.sortReverse = ($scope.sortType != type? 0: !$scope.sortReverse )
+            $scope.sortType = type;
+        }
+
+        $scope.favoriteUser = function(event, id) {
+
+            var list = $scope.localStorage.get('sumstat_favoriteUsers').split(',') || [],
+                index = $.inArray(data.ID, list);
+
+            _log('FIRE: sumstat:favoriteUserChange', data);
+
+            if(index == -1) {
+                list.push(data.ID);
+            }else{
+               delete list[index];
+            }
+            
+            $scope.localStorage.set('sumstat_favoriteUsers', list.join(','));
+
+
+            $rootScope.localStorage
+            $rootScope.$broadcast('sumstatFavoriteUserChange', { 'ID': id });
+            
+        };
+        
+        $scope.pageChanged = function(currentPage) {
+
+            $scope.currentPage = currentPage;
+            $location.search('page', currentPage);
+        
+        };
+
+        $scope.checkOnDrop = function(event, key) {
+
+            var item = $(event.currentTarget).parents('.ui-table-dropdown-item'),
+                isChecked = event.currentTarget.checked;
+            
+            item[(isChecked?'add':'remove')+'Class']('ui-table-dropdown-checked');
+        };
+
+        /* END Functions */
+        
+        /* BEGIN Watchers & Listeners */
+        $scope.$watch('sortType', function() {
+            $location.search('sortType', $scope.sortType);
+        });
+
+        $scope.$watch('sortReverse', function() {
+            $location.search('sortReverse', $scope.sortReverse?1:null);
+        });
+
+        $rootScope.$on('changeUserList', function() {
+            $scope.userCount = Object.keys($rootScope.userList).length;
+        });
+        
+        /* END Watchers & Listeners */
     }
 ]);

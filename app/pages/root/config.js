@@ -11,11 +11,22 @@ function ($stateProvider, $urlRouterProvider, $locationProvider, localStorageSer
 
 	$locationProvider.html5Mode(true);
 	localStorageServiceProvider.setPrefix('SA');
+	
     // $httpProvider.defaults.useXDomain = true;
 	// delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
 	// localStorageServiceProvider.setStorageType('localStorage');
     
+	// Здесь мы будем проверять авторизацию
+	/*
+	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		
+		_log('Event $stateChangeStart ... ');
+
+		Auth.checkAccess(event, toState, toParams, fromState, fromParams);
+	});
+	*/
+
 	$urlRouterProvider
 		.when('/', '/sumstat')
 		.otherwise("/404");
