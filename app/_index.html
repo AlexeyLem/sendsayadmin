@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="app" ng-controller="MainCtrl">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title ng-bind="windowTitle">Sendsay Admin</title>
+	<meta name="description" content="">
+	<base href="/">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap-theme.css">
+	
+
+	<link rel="stylesheet" href="css/animation.css">
+	<link rel="stylesheet" href="css/app.css">
+	<!-- <link rel="stylesheet" href="css/bootstrap-cerulean.min.css"> -->
+	<!-- <link rel="stylesheet" href="css/_ispinna.css"> -->
+
+	<script src="helpers/global.js"></script>
+
+	<script src="libs/jquery/dist/jquery.min.js"></script>
+	<script src="libs/lodash/lodash.min.js"></script>
+	<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="libs/angular/angular.js"></script>
+	<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="libs/angular-local-storage/dist/angular-local-storage.min.js"></script>
+	<script src="libs/angular-animate/angular-animate.js"></script>
+	<script src="libs/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+	<script src="libs/moment/moment.js"></script>
+	<script src="libs/angular-moment/angular-moment.js"></script>
+	<script src="libs/moment/locale/ru.js"></script>
+
+	<script src="app.js"></script>
+	<script src="services/auth.js"></script>
+	<script src="services/api.js"></script>
+	<script src="services/sumstat_favorites.js"></script>
+
+	<script src="pages/root/config.js"></script>
+	<script src="pages/root/main.ctrl.js"></script>
+	<script src="pages/root/favorites.ctrl.js"></script>
+	<script src="pages/root/navigation.ctrl.js"></script>
+	<script src="pages/root/topsearch.ctrl.js"></script>
+	<script src="pages/sumstat/module.js"></script>
+	<script src="pages/sumstat/list/controller.js"></script>
+	<script src="pages/sumstat/user_view/controller.js"></script>
+
+	<script src="filters/module.js"></script>
+	<script src="filters/pagination.js"></script>
+
+	<script src="directives/tarif_info.js"></script>
+</head>
+
+<body ng-cloak>
+	<div  ng-if="isAuthenticated">
+		<!--[if lt IE 8]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+		<!-- 
+	    <pre>
+	      $state = {{$state.current.name}}
+	      $stateParams = {{$stateParams}}
+	      $state full url = {{ $state.$current.url.source }}
+	    </pre>
+	 	-->
+		<header class="ui-top">
+			<div class="clearfix">
+				<div class="col-sm-5 inline">
+					<ng-include
+						src="'pages/root/top_search.html'"
+						ng-controller="TopSearchCtrl"
+					></ng-include>
+				</div>
+				<div class="col-sm-7 inline">
+					<ng-include
+						src="'pages/root/favorits.html'"
+						class="animation-left"
+						ng-controller="favoritesCtrl"
+					></ng-include>
+				</div>
+			</div>
+		</header>
+
+		<ng-include src="'pages/root/logo.html'"></ng-include>
+
+		<ng-include 
+			src="'pages/root/navigation.html'" 
+			class="animation-left"
+			ng-controller="NavogationCtrl"
+		></ng-include>
+
+		<div ui-view class="animation-fade"></div>
+	</div>
+
+	<div ng-if="!isAuthenticated">
+		<ng-include 
+			src="'pages/auth/template.html'" 
+			class="animation-left"
+		></ng-include>
+	</div>
+
+</body>
+
+</html>

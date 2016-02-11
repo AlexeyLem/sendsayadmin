@@ -1,25 +1,25 @@
 AppSumstat
 .controller('SumstatUserViewCtrl', [
+    
     '$scope',
+    '$rootScope',
     '$stateParams',
     '$location',
-    function ($scope, $stateParams, $location) {
-    	
-    	/*,
-		resolve: {
-            user: ['$scope','$stateParams', function($scope, $stateParams) {
-                $scope.user = $scope.userList[$stateParams.user];
-                return $scope.userList[$stateParams.user];
-            }]
-        }
-        
-        var index = $scope.userListLink[$stateParams.userId];
-        */
 
-	    $scope.user = $scope.userList[$stateParams.userId];
+    function ($scope, $rootScope, $stateParams, $location) {
+    	
+        _log('$stateParams.userId: ' + $stateParams.userId);
+        
+        var userIndex = $rootScope.userList_keyLink[$stateParams.userId];
+
+	    $scope.user = $rootScope.userList[userIndex];
+
+        _log('$scope.user: ', _.extend({}, $scope.user));
+
+        
 	    $scope.userJSON = JSON.stringify($scope.user)
 	    	.replace(/\,/ig,",\n")
 	    	.replace(/\{/ig,"{\n")
 	    	.replace(/\}/ig,"\n}");
-	    	
+	    
     }]);

@@ -6,7 +6,7 @@ AppSumstat
     'Api',
     'SumstatFavorites',
 
-    function ($scope, $rootScope, $location, api) {
+    function ($scope, $rootScope, $location, api, SumstatFavorites) {
 
         $scope.userCount = $rootScope.userList.length;
         $scope.currentPage = $location.search().page || 1;
@@ -36,24 +36,13 @@ AppSumstat
         }
 
         $scope.favoriteUser = function(event, id) {
-
-            var list = $scope.localStorage.get('sumstat_favoriteUsers').split(',') || [],
-                index = $.inArray(data.ID, list);
-
-            _log('FIRE: sumstat:favoriteUserChange', data);
-
-            if(index == -1) {
-                list.push(data.ID);
+            
+            if(SumstatFavorites.inList(id)) {
+                SumstatFavorites.Remove(id);    
             }else{
-               delete list[index];
-            }
-            
-            $scope.localStorage.set('sumstat_favoriteUsers', list.join(','));
+                SumstatFavorites.Add(id);   
+            }            
 
-
-            $rootScope.localStorage
-            $rootScope.$broadcast('sumstatFavoriteUserChange', { 'ID': id });
-            
         };
         
         $scope.pageChanged = function(currentPage) {
@@ -73,7 +62,9 @@ AppSumstat
 
         /* END Functions */
         
+
         /* BEGIN Watchers & Listeners */
+        
         $scope.$watch('sortType', function() {
             $location.search('sortType', $scope.sortType);
         });

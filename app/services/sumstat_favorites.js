@@ -3,25 +3,64 @@ App.factory('SumstatFavorites', [
 	'$rootScope',
 	'localStorageService',
 
-	function($rootScope, localStorage) {
+	function($rootScope, localStorageService) {
 
-	var list = localStorage.get('sumstat_favorite').split(',') || [],
+	_log('localStorageService:', localStorageService);
+
+	var keyName = 'sumstatFavoriteUsers';
+
+	if(!localStorageService.get(keyName)) {
+		localStorageService.set(keyName,'')
+	}
+
+	var list = localStorageService.get(keyName).split(',') || [],
+		
+		saveList = function() {
+
+			localStorageService.set(keyName, list.join(','));
+		
+		},
+
 		service = {
 
-		'List': function() {
-			return list.splice(0);
+		'getList': function() {
+			
+			return list.slice(0);
+
 		},
 		
 		'Add': function(id) { // id
 
-			$rootScope.$broadcast('SumstatFavorites_Add', id);
-			$rootScope.$broadcast('SumstatFavorites_Change', list);
+			id = id || null;
+
+			if(typeof id !== 'object' && id && !this.inList(id)) {
+				
+				list.push(id);
+
+				saveList();
+
+				$rootScope.$broadcast('SumstatFavorites_Add', id);
+				$rootScope.$broadcast('SumstatFavorites_Change', list);
+			}
+
 		},
 
 		Remove: function(id) { // id
+			
+			id = id || null;
 
-			$rootScope.$broadcast('SumstatFavorites_Remove', id);
-			$rootScope.$broadcast('SumstatFavorites_Change', list);
+			var index = $.inArray(id, list);
+
+			if(typeof id !== 'object' && id && index != -1) {
+
+				list.splice(index, 1);
+
+				saveList();
+
+				$rootScope.$broadcast('SumstatFavorites_Remove', id);
+				$rootScope.$broadcast('SumstatFavorites_Change', list);
+			}
+
 		},
 
 		inList: function(id) { // id

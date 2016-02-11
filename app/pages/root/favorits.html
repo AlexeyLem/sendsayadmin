@@ -1,8 +1,8 @@
 <div class="inline ui-favorites">
 	<i class="glyphicon glyphicon-star yellow icon-favorite" aria-hidden="true"></i>
 
-	<div class="btn-group btn-group-xs ui-favorite-item  hidden-sm" ng-repeat="item in favoriteUsers" ng-if="userList[userList_keyLink[item]]">
-		<a ng-href="/sumstat/view/{{item}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-user "></i> {{userList[userListLink[item]].TITLE}}</a>
+	<div class="btn-group btn-group-xs ui-favorite-item  hidden-sm" ng-repeat="item in sumstatFavoriteUsers" ng-if="userList[userList_keyLink[item]]">
+		<a ng-href="/sumstat/view/{{item}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-user "></i> {{userList[userList_keyLink[item]].TITLE}}</a>
 		<button type="button" class="ui-favorites_remove-item btn btn-default btn-xs" ng-click="removeFromFavorites(item)" title='Удалить "{{userList[userList_keyLink[item]].TITLE}}" из избранных'>&times;</button>
 	</div>
 

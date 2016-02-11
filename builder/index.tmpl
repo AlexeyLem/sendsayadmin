@@ -1,0 +1,86 @@
+<!-- Compile Date: <%
+  var d = new Date(),
+      hour = d.getHours();
+  
+  // d.setHours(hour+8);
+
+  var d_str = d.getFullYear() + '-'
+            + (d.getMonth()<10?'0':'') + (d.getMonth() + 1) + '-'
+            + (d.getDate()<10?'0':'') + d.getDate() + ' '
+            + (d.getHours()<10?'0':'') + d.getHours() + ':'
+            + (d.getMinutes()<10?'0':'') + d.getMinutes() + ':'
+            + (d.getSeconds()<10?'0':'') + d.getSeconds();
+
+  print(d_str);  %> //-->
+
+<!DOCTYPE html>
+<!--//  <%= time %> //-->
+<html lang="ru" ng-app="app" ng-controller="MainCtrl">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title ng-bind="windowTitle">Sendsay Admin</title>
+	<meta name="description" content="">
+	<base href="/">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<% source.css.forEach(function(value) { %>
+	<link rel="stylesheet" href="<%= value %>?<%= time %>"><% }); %>
+	
+	<!-- Libs -->
+	<% source.js.lib.forEach(function(value) { %>
+	<script src="<%= value %>?<%= time %>"></script><% }); %>
+	
+	<% if(prod) { %>
+	<script src="build.min.js?<%= time %>"></script>
+	<% }else{ %>
+	<!-- App js -->
+	<% source.js.app.forEach(function(value) { %>
+	<script src="<%= value %>?<%= time %>"></script><% }); %>
+	<% } %>
+</head>
+
+<body ng-cloak>
+	<div  ng-if="isAuthenticated">
+
+		<header class="ui-top">
+			<div class="clearfix">
+				<div class="col-sm-5 inline">
+					<ng-include
+						src="'pages/root/top_search.html'"
+						ng-controller="TopSearchCtrl"
+					></ng-include>
+				</div>
+				<div class="col-sm-7 inline">
+					<ng-include
+						src="'pages/root/favorits.html'"
+						class="animation-left"
+						ng-controller="favoritesCtrl"
+					></ng-include>
+				</div>
+			</div>
+		</header>
+
+		<ng-include src="'pages/root/logo.html'"></ng-include>
+
+		<ng-include 
+			src="'pages/root/navigation.html'" 
+			class="animation-left"
+			ng-controller="NavogationCtrl"
+		></ng-include>
+
+		<div ui-view class="animation-fade"></div>
+	</div>
+
+	<div ng-if="!isAuthenticated">
+		<ng-include 
+			src="'pages/auth/template.html'" 
+			class="animation-left"
+		></ng-include>
+	</div>
+
+</body>
+
+</html>

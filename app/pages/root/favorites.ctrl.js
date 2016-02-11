@@ -6,6 +6,7 @@ App.controller('favoritesCtrl', [
 
     function ($scope, $rootScope, SumstatFavorites) {
 
+        $rootScope.sumstatFavoriteUsers = SumstatFavorites.getList();
 
         $rootScope.isFavoriteUser = function(id) {
             return SumstatFavorites.inList(id);
@@ -15,51 +16,29 @@ App.controller('favoritesCtrl', [
         	
             _log('removeFromFavorites: '+id);
             SumstatFavorites.Remove(id);
-            // $scope.$emit('sumstatRemoveFromFavorites', { ID: id });
         
         };
 
-        $scope.showDrop = function() {
-
-        };
-
-        $rootScope.$watch('sumstat_favoriteUsers', function() {
+        $scope.$watch('sumstatFavoriteUsers', function() {
 
             _log('event', arguments);
 
         });
 
-        $scope.$on('sumstatFavoriteUserChange', function(event, data) {
-            
-            
-        });
+        // Изменение списка избранных
+
+        $scope.$on('SumstatFavorites_Change', function(event, list) {
+
+            $rootScope.sumstatFavoriteUsers = list;
         
-        // Удаление пользователя из избранных
-        $rootScope.$on('sumstatRemoveFromFavorites', function(event, user) {
-            
-            var index = $.inArray(user.ID, $rootScope.sumstat_favoriteUsers);
-
-            if(index!=-1) {
-                $rootScope.sumstat_favoriteUsers.splice(index,1);
-                $scope.localStorage.set('sumstat_favoriteUsers', $rootScope.sumstat_favoriteUsers.join(','));
-            }
-
         });
 
 
-        // Удаление пользователя из избранных
-        /*
-        $scope.$on('sumstat:removeFromFavorites', function(event, user) {
-            
-            var index = $.inArray(user.ID, $rootScope.sumstat_favoriteUsers);
+        $scope.showDrop = function() {
 
-            if(index!=-1) {
-                $rootScope.sumstat_favoriteUsers.splice(index,1);
-                $rootScope.localStorage.set('sumstat_favoriteUsers', $rootScope.sumstat_favoriteUsers.join(','));
-            }
+        };
 
-        });
-        */
+
         _log('favoritesCtrl ...');
     }
 ]);

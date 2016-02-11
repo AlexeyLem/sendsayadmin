@@ -10,12 +10,15 @@ function ($stateProvider, $urlRouterProvider, $locationProvider, localStorageSer
 	_log('App config ...');
 
 	$locationProvider.html5Mode(true);
-	localStorageServiceProvider.setPrefix('SA');
 	
+	localStorageServiceProvider
+		.setPrefix('SA');
+	
+	localStorageServiceProvider
+		.setStorageType('localStorage');
+
     // $httpProvider.defaults.useXDomain = true;
 	// delete $httpProvider.defaults.headers.common["X-Requested-With"];
-
-	// localStorageServiceProvider.setStorageType('localStorage');
     
 	// Здесь мы будем проверять авторизацию
 	/*

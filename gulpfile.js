@@ -8,7 +8,11 @@ var modRewrite = require('connect-modrewrite');
 var map = require('map-stream');
 var gutil = require('gulp-util');
 
+var source = require('./builder/source.js');
+var template = require('gulp-template');
+
 /*
+
 gulp.task('connect', function () {
 	connect.server({
 		root: 'app/',
@@ -23,6 +27,7 @@ gulp.task('connect', function () {
 		}
 	});
 });
+
 */
 
 var jsPathes = [
@@ -47,19 +52,7 @@ var myReporter = map(function (file, cb) {
   cb(null, file);
 });
 
-gulp.task('lint', function() {
-	
-	gulp.src([
-			'./app/helpers/*.js',
-			'./app/directives/*.js',
-			'./app/filters/*.js',
-			'./app/pages/*.js',
-			'./app/services/*.js'
-		])
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'));
 
-});
 
 // Локальный сервер для разработки
 gulp.task('connect', function() {
@@ -80,28 +73,74 @@ gulp.task('connect', function() {
 
 });
 
+gulp.task('lint', function() {
+	
+	gulp.src(source.js.app)
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'));
+
+});
 
 // Конкатенация и минификация файлов
 gulp.task('uglify', function() {
 
-    gulp.src([
-    		'./app/app.js',
-    		'./app/helpers/**/*.js',
-			'./app/directives/**/*.js',
-			'./app/filters/**/*.js',
-			'./app/pages/**/*.js',
-			'./app/services/**/*.js'		
-		])
-        .pipe(concat('all.js'))
+	var _source = [];
+
+	source.js.app.forEach(function(val) {
+		_source.push('./app/'+val);
+	});
+
+    gulp.src(_source)
+        .pipe(concat('build.js'))
         .pipe(gulp.dest('app'))
 
-        .pipe(rename('app.min.js'))
-        .pipe(uglify().on('error', gutil.log))
+        .pipe(rename('build.min.js'))
+        .pipe(
+        	uglify({ mangle: false })
+        		.on('error', gutil.log)
+        )
         .pipe(gulp.dest('app'));
+
+});
+
+// Генерация index.html
+gulp.task('index:dev', function() {
+
+	gulp.src('builder/index.tmpl')
+		.pipe(template({
+			prod: false,
+			time: (new Date()).getTime(),
+			source: source
+		}))
+		.pipe(rename('index.html'))
+		.pipe(gulp.dest('app'));
+
+});
+
+// Генерация index.html
+gulp.task('index:prod', function() {
+
+	gulp.src('builder/index.tmpl')
+		.pipe(template({
+			prod: true,
+			time: (new Date()).getTime(),
+			source: source
+		}))
+		.pipe(rename('index.html'))
+		.pipe(gulp.dest('app'));
+
 });
 
 // Production сборка
-gulp.task('prod', function(){
-	gulp.run('minify');
+gulp.task('prod', function() {
 
-})
+	gulp.run('lint', 'uglify', 'index:prod');
+
+});
+
+// Сборка для разработки
+gulp.task('dev', function() {
+
+	gulp.run('index:dev');
+
+});

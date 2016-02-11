@@ -10,9 +10,8 @@
 	'$httpProvider',
 	'$urlRouterProvider',
 	'$locationProvider',
-	'localStorageServiceProvider',
 
-    function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, localStorageServiceProvider) {
+    function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider) {
 
     	_log('app.sumstat config ...');
     	
@@ -30,9 +29,8 @@
 	                '$rootScope',
 	                '$state',
 	                '$stateParams',
-	                'localStorageService',
 
-	                function ($q, Api, $rootScope, $state, $stateParams, localStorageService) {
+	                function ($q, Api, $rootScope, $state, $stateParams) {
 	                	
 	                	var deferred = $q.defer();
 
@@ -43,22 +41,13 @@
 	                    $rootScope.activeUsers = [];
 	                    $rootScope.blockedUsers = [];
 						
-						// Избранные пользовтели
-	                    if(!$rootScope.localStorage.get('sumstat_favoriteUsers')) {
-	                    	$rootScope.favoriteUsers = [];
-	                    }else{
-	                    	$rootScope.favoriteUsers = ($rootScope.localStorage.get('sumstat_favoriteUsers')).split(',');
-	                    }
-
 	                    var _listHandler = function(data) {
 
 	                    	// _log('Api Request:', data);
 
 	                    	var len = Object.keys(data.list).length,
 	                    		uList = [];
-
-	                    	$rootScope.userList = [];
-	                    	$rootScope.userListLink = {};
+	                    		
 	                    	$rootScope.userCount = len;
 
 	                    	_log('$rootScope.userCount: '+ Object.keys(data.list).length);
@@ -116,7 +105,7 @@
 				    '$scope',
 				    '$stateParams',
 				    function ($scope, $stateParams) {
-					    var index = $scope.userListLink[$stateParams.userId];
+					    var index = $scope.userList_keyLink[$stateParams.userId];
         				$scope.user = $scope.userList[index];
 				    }]
 	    	})

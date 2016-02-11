@@ -287,6 +287,8 @@ var _TARIFS = {
 			}
 			*/
 
+			_log(code, option);
+
 			iElm.text(_.get(_TARIFS, [ code, option ], 'Unknown'));	
 		
 		}
