@@ -96,7 +96,7 @@ gulp.task('uglify', function() {
 
         .pipe(rename('build.min.js'))
         .pipe(
-        	uglify({ mangle: false })
+        	uglify({ compress: false, mangle: true }) // { mangle: false }
         		.on('error', gutil.log)
         )
         .pipe(gulp.dest('app'));
@@ -142,5 +142,31 @@ gulp.task('prod', function() {
 gulp.task('dev', function() {
 
 	gulp.run('index:dev');
+
+});
+
+gulp.task('uglifytest', function() {
+
+	source.js.app.forEach(function(val, key) {
+		val = 'app/'+val;
+		if(key>1) {
+			console.log(val);
+
+			var p = val.split("/"),
+				s = p[p.length-1].split("."),
+				newName = s.slice(0,s.length-1).join('.')+'.min.'+s.slice(s.length-1),
+				newPath = p.slice(0,-1).join('/');
+			
+			console.log(newPath + '/' + newName + "\n");
+
+			gulp.src([val])
+				.pipe(gulp.dest('builder'))
+				.pipe(rename(newName))
+				.pipe(
+	        		uglify().on('error', gutil.log)
+	        	)
+	        	.pipe(gulp.dest(newPath+'/'));
+	    }
+	});
 
 });

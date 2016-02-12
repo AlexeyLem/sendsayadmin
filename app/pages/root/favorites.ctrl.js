@@ -29,7 +29,7 @@ App.controller('favoritesCtrl', [
 
         $scope.$on('SumstatFavorites_Change', function(event, list) {
 
-            $rootScope.sumstatFavoriteUsers = list;
+            // $rootScope.sumstatFavoriteUsers = list;
         
         });
 

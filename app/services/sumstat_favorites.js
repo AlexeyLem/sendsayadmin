@@ -5,12 +5,10 @@ App.factory('SumstatFavorites', [
 
 	function($rootScope, localStorageService) {
 
-	_log('localStorageService:', localStorageService);
-
 	var keyName = 'sumstatFavoriteUsers';
 
 	if(!localStorageService.get(keyName)) {
-		localStorageService.set(keyName,'')
+		localStorageService.set(keyName,'');
 	}
 
 	var list = localStorageService.get(keyName).split(',') || [],

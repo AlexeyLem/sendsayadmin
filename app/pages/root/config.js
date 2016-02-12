@@ -19,19 +19,11 @@ function ($stateProvider, $urlRouterProvider, $locationProvider, localStorageSer
 
     // $httpProvider.defaults.useXDomain = true;
 	// delete $httpProvider.defaults.headers.common["X-Requested-With"];
-    
-	// Здесь мы будем проверять авторизацию
-	/*
-	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-		
-		_log('Event $stateChangeStart ... ');
 
-		Auth.checkAccess(event, toState, toParams, fromState, fromParams);
-	});
-	*/
 
 	$urlRouterProvider
 		.when('/', '/sumstat')
+		.when('/sumstat/','/sumstat')
 		.otherwise("/404");
-    
+
 }]);

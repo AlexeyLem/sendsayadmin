@@ -14,9 +14,6 @@
     function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider) {
 
     	_log('app.sumstat config ...');
-    	
-    	$urlRouterProvider.when('/sumstat/','/sumstat');
-
     	$stateProvider
 	    	.state('sumstat', {
 	    		abstract: true,
@@ -24,30 +21,30 @@
 	    		template: '<div class="ui-main-conteiner" ui-view></div>',
 	    		resolve:  [
 	    			
-	    			'$q',
-	                'Api',
-	                '$rootScope',
-	                '$state',
-	                '$stateParams',
+	    			"$q",
+	                "$rootScope",
+	                "$state",
+	                "$stateParams",
+	                "Api",
 
-	                function ($q, Api, $rootScope, $state, $stateParams) {
+	                function ($q, $rootScope, $state, $stateParams, Api) {
 	                	
 	                	var deferred = $q.defer();
 
-				        // _log('$http.defaults.headers:', $http.defaults.headers);
+	                	_log('AppSumstat base state resolve ... ');
 
-	                   	$rootScope.userList = [];
+				        $rootScope.userList = [];
 	                   	$rootScope.userList_keyLink = {};
 	                    $rootScope.activeUsers = [];
 	                    $rootScope.blockedUsers = [];
 						
 	                    var _listHandler = function(data) {
 
-	                    	// _log('Api Request:', data);
+	                    	_log('Api Request:', data);
 
 	                    	var len = Object.keys(data.list).length,
 	                    		uList = [];
-	                    		
+
 	                    	$rootScope.userCount = len;
 
 	                    	_log('$rootScope.userCount: '+ Object.keys(data.list).length);
@@ -65,7 +62,6 @@
 		                            }else{
 		                                $rootScope.activeUsers.push(user.ID);
 		                            }
-
 	                    		}
 
 	                    		$rootScope.userList = uList;
@@ -78,7 +74,7 @@
 		                
 		                };
 
-						// _log('Api.request ...', Api);
+						_log('Api.request ...', Api);
 
 						Api.request({
 
@@ -94,7 +90,7 @@
 	    	.state('sumstat.list', {
 	    		url: '',
 	    		templateUrl: 'pages/sumstat/list/template.html',
-	    		controller: 'SumstatListCtrl',
+	    		controller: 'SumstatListCtrl'
 	    	})
 
 	    	.state('sumstat.view', {

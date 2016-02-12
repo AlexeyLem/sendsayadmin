@@ -12,14 +12,19 @@ var App = angular.module("app", [
 
 ]).run([
 
-	'amMoment',
 	'$rootScope',
 	'$state',
 	'$stateParams',
+	'amMoment',
 	
-	function(amMoment, $rootScope, $state, $stateParams) {
+	function($rootScope, $state, $stateParams, amMoment) {
 
 		_log('App run ...');
+
+		$rootScope.$on('$stateChangeStart', 
+			function(event, toState, toParams, fromState, fromParams, options) {
+				_log('$stateChangeStart: ', arguments);
+		});
 
 		amMoment.changeLocale('ru');
 
@@ -28,6 +33,5 @@ var App = angular.module("app", [
 
 		$rootScope.user = null;
 
-		
 	}
 ]);
