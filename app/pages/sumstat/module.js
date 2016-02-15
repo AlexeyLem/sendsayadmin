@@ -14,77 +14,76 @@
     function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider) {
 
     	_log('app.sumstat config ...');
+    	
     	$stateProvider
 	    	.state('sumstat', {
 	    		abstract: true,
 				url: '/sumstat',
 	    		template: '<div class="ui-main-conteiner" ui-view></div>',
-	    		resolve:  [
-	    			
-	    			"$q",
-	                "$rootScope",
-	                "$state",
-	                "$stateParams",
-	                "Api",
+	    		resolve:  {
+	    			"data": [
 
-	                function ($q, $rootScope, $state, $stateParams, Api) {
-	                	
-	                	var deferred = $q.defer();
+		    			"$q",
+		                "$rootScope",
+		                "Api",
 
-	                	_log('AppSumstat base state resolve ... ');
+		                function ($q, $rootScope, Api) {
+		                	
+		                	var deferred = $q.defer();
 
-				        $rootScope.userList = [];
-	                   	$rootScope.userList_keyLink = {};
-	                    $rootScope.activeUsers = [];
-	                    $rootScope.blockedUsers = [];
-						
-	                    var _listHandler = function(data) {
+		                	_log('AppSumstat base state resolve ... ');
 
-	                    	_log('Api Request:', data);
+					        $rootScope.userList = [];
+		                   	$rootScope.userList_keyLink = {};
+		                    $rootScope.activeUsers = [];
+		                    $rootScope.blockedUsers = [];
+							
+		                    var _listHandler = function(data) {
 
-	                    	var len = Object.keys(data.list).length,
-	                    		uList = [];
+		                    	_log('Api Request:', data);
 
-	                    	$rootScope.userCount = len;
+		                    	var len = Object.keys(data.list).length,
+		                    		uList = [];
 
-	                    	_log('$rootScope.userCount: '+ Object.keys(data.list).length);
+		                    	$rootScope.userCount = len;
 
-	                    	if(data.list && len) {
+		                    	_log('$rootScope.userCount: ' + Object.keys(data.list).length);
 
-	                    		for(var key in data.list) {
-	                    			
-	                    			var user = data.list[key];
-	                    			
-	                    			$rootScope.userList_keyLink[key] = uList.push(user) -1;
+		                    	if(data.list && len) {
 
-		                            if (user.BLOCKED=="0") {
-		                                $rootScope.blockedUsers.push(user.ID);
-		                            }else{
-		                                $rootScope.activeUsers.push(user.ID);
-		                            }
-	                    		}
+		                    		for(var key in data.list) {
+		                    			
+		                    			var user = data.list[key];
+		                    			
+		                    			$rootScope.userList_keyLink[key] = uList.push(user) - 1;
 
-	                    		$rootScope.userList = uList;
+			                            if (user.BLOCKED=="0") {
+			                                $rootScope.blockedUsers.push(user.ID);
+			                            }else{
+			                                $rootScope.activeUsers.push(user.ID);
+			                            }
+		                    		}
 
-	                    	}
+		                    		$rootScope.userList = uList;
 
-	                    	$rootScope.$emit('changeUserList');
+		                    	}
 
-	                        deferred.resolve();
-		                
-		                };
+		                    	$rootScope.$emit('changeUserList');
 
-						_log('Api.request ...', Api);
+		                        deferred.resolve();
+			                
+			                };
 
-						Api.request({
+							_log('Api.request ...', Api);
 
-	                    	"action": "account.sumstat"
-	                    
-	                    }).then(_listHandler);
-						
-	                    return deferred.promise;
-	                }
-	            ]
+							Api.request({
+		                    	"action": "account.sumstat"
+		                    }).then(_listHandler);
+							
+		                    return deferred.promise;
+		                }
+		            ]
+		        }
 	    	})
 	    	
 	    	.state('sumstat.list', {

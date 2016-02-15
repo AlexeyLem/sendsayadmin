@@ -59,7 +59,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="userItem in userList | orderBy:sortType:sortReverse | sumstatPaginationFilter:currentPage:20"  class="{{isFavoriteUser(userItem.ID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
+            <tr ng-repeat="userItem in userList | orderBy:sortType:sortReverse | sumstatPaginationFilter:currentPage:20 | searchFilter:search"  class="{{isFavoriteUser(userItem.ID)?'ui-favorite-row':''}}" ng-animate="{enter: 'app-enter', leave: 'app-leave', move: 'app-leave-setup'}">
                 <td>
                     <a ng-if="!isFavoriteUser(userItem.ID)" class="ui-favorite-add" href="javascript:void(0);" ng-click="favoriteUser($event, userItem.ID)" aria-hidden="true" title="Добавить в избранные">
                         <i class="glyphicon glyphicon-star default"></i>

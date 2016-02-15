@@ -1,15 +1,22 @@
-var gulp = require('gulp');
-var jshint = require('gulp-jshint');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var connect = require('gulp-connect');
-var modRewrite = require('connect-modrewrite');
+var gulp = require('gulp'),
+
+	connect = require('gulp-connect'),
+	modRewrite = require('connect-modrewrite'),
+
+	jshint = require('gulp-jshint'),
+	concat = require('gulp-concat'),
+	rename = require('gulp-rename'),
+	uglify = require('gulp-uglify'),
+	template = require('gulp-template'),
+
+	concatCSS = require('gulp-concat-css'),
+	minifyCSS = require('gulp-minify-css');
+
 var map = require('map-stream');
 var gutil = require('gulp-util');
 
 var source = require('./builder/source.js');
-var template = require('gulp-template');
+
 
 /*
 
@@ -20,7 +27,7 @@ gulp.task('connect', function () {
 		livereload: true,
 		middleware: function (connect, opt) {
 			// `localhost/server/api/getuser/1` will be proxied to `192.168.1.186/server/api/getuser/1` 
-			opt.route = '/api';
+			opt.route = '/api/';
 			opt.context = 'test.sendsay.ru/admin/api/';
 			var proxy = new Proxy(opt);
 			return [proxy];
@@ -52,8 +59,6 @@ var myReporter = map(function (file, cb) {
   cb(null, file);
 });
 
-
-
 // Локальный сервер для разработки
 gulp.task('connect', function() {
 	
@@ -63,13 +68,33 @@ gulp.task('connect', function() {
 	    port: 8080,
 	    middleware: function(connect, opt) {
 			return [
-				modRewrite(['!\\.html|\\.swf|\\.eot|\\.woff|\\.ttf|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.gif$ /index.html', '^/api/(.*)$ https://test.sendsay.ru/admin/api/$1 [P]'])
+				modRewrite([
+					'!\\.html|\\.swf|\\.eot|\\.woff|\\.ttf|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.gif$ /index.html',
+					'^/api/(.*)$ https://test.sendsay.ru/admin/api/$1 [P]'
+				])
 			]
 		}
 
 	});
 
     console.log('Server listening on http://localhost:8080');
+
+});
+
+gulp.task('css', function() {
+
+	var _source = [];
+
+	source.css.app.forEach(function(val) {
+		_source.push('./app/'+val);
+	});
+
+	gulp.src(_source)
+		.pipe(concatCSS('build.css'))
+		.pipe(gulp.dest('app'))
+		.pipe(minifyCSS())
+		.pipe(rename('build.min.css'))
+		.pipe(gulp.dest('app'));
 
 });
 
@@ -96,7 +121,7 @@ gulp.task('uglify', function() {
 
         .pipe(rename('build.min.js'))
         .pipe(
-        	uglify({ compress: false, mangle: true }) // { mangle: false }
+        	uglify()
         		.on('error', gutil.log)
         )
         .pipe(gulp.dest('app'));
@@ -131,17 +156,18 @@ gulp.task('index:prod', function() {
 
 });
 
+
 // Production сборка
 gulp.task('prod', function() {
 
-	gulp.run('lint', 'uglify', 'index:prod');
+	gulp.run('lint', 'uglify', 'index:prod', 'css');
 
 });
 
 // Сборка для разработки
 gulp.task('dev', function() {
 
-	gulp.run('index:dev');
+	gulp.run('lint','index:dev');
 
 });
 

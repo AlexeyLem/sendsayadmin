@@ -30,11 +30,14 @@
     "gulp-util": "^3.0.7",
     "jscs": "^1.13.1",
     "jscs-teamcity-reporter": "0.0.4",
+    "jshint": "^2.9.1",
     "karma": "^0.12",
     "karma-jasmine": "^0.2.0",
     "karma-mocha-reporter": "^1.0.2",
     "karma-phantomjs-launcher": "^0.1",
     "karma-requirejs": "^0.2",
-    "map-stream": "0.0.6"
+    "lodash": "^4.3.0",
+    "map-stream": "0.0.6",
+    "requirejs": "^2.1.22"
   }
 }

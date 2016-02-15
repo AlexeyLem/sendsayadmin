@@ -1,7 +1,7 @@
-<!-- Compile Date: 2016-02-12 17:49:15 //-->
+<!-- Compile Date: 2016-02-15 19:10:46 //-->
 
 <!DOCTYPE html>
-<!--//  1455288555088 //-->
+
 <html lang="ru" ng-app="app" ng-controller="MainCtrl">
 <head>
 	<meta charset="utf-8">
@@ -14,46 +14,31 @@
 
 	<!-- CSS -->
 	
-	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css?1455288555088">
-	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap-theme.css?1455288555088">
-	<link rel="stylesheet" href="css/animation.css?1455288555088">
-	<link rel="stylesheet" href="css/app.css?1455288555088">
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css?1455552646870">
+	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap-theme.css?1455552646870">
+
 	
+	<link rel="stylesheet" href="build.min.css?1455552646870">
+	
+
 	<!-- Libs -->
 	
-	<script src="libs/jquery/dist/jquery.min.js?1455288555088"></script>
-	<script src="libs/lodash/lodash.min.js?1455288555088"></script>
-	<script src="libs/bootstrap/dist/js/bootstrap.min.js?1455288555088"></script>
-	<script src="libs/angular/angular.js?1455288555088"></script>
-	<script src="libs/angular-ui-router/release/angular-ui-router.js?1455288555088"></script>
-	<script src="libs/angular-local-storage/dist/angular-local-storage.min.js?1455288555088"></script>
-	<script src="libs/angular-animate/angular-animate.js?1455288555088"></script>
-	<script src="libs/angular-bootstrap/ui-bootstrap.js?1455288555088"></script>
-	<script src="libs/angular-bootstrap/ui-bootstrap-tpls.js?1455288555088"></script>
-	<script src="libs/moment/moment.js?1455288555088"></script>
-	<script src="libs/angular-moment/angular-moment.js?1455288555088"></script>
-	<script src="libs/moment/locale/ru.js?1455288555088"></script>
-	
+	<script src="libs/jquery/dist/jquery.min.js?1455552646870"></script>
+	<script src="libs/lodash/lodash.min.js?1455552646870"></script>
+	<script src="libs/bootstrap/dist/js/bootstrap.min.js?1455552646870"></script>
+	<script src="libs/angular/angular.js?1455552646870"></script>
+	<script src="libs/angular-ui-router/release/angular-ui-router.js?1455552646870"></script>
+	<script src="libs/angular-local-storage/dist/angular-local-storage.min.js?1455552646870"></script>
+	<script src="libs/angular-animate/angular-animate.js?1455552646870"></script>
+	<script src="libs/angular-bootstrap/ui-bootstrap.js?1455552646870"></script>
+	<script src="libs/angular-bootstrap/ui-bootstrap-tpls.js?1455552646870"></script>
+	<script src="libs/moment/moment.js?1455552646870"></script>
+	<script src="libs/angular-moment/angular-moment.js?1455552646870"></script>
+	<script src="libs/moment/locale/ru.js?1455552646870"></script>
 	
 	<!-- App js -->
 	
-	<script src="helpers/global.js?1455288555088"></script>
-	<script src="app.js?1455288555088"></script>
-	<script src="services/auth.min.js?1455288555088"></script>
-	<script src="services/api.min.js?1455288555088"></script>
-	<script src="services/sumstat_favorites.min.js?1455288555088"></script>
-	<script src="filters/module.min.js?1455288555088"></script>
-	<script src="filters/pagination.min.js?1455288555088"></script>
-	<script src="directives/tarif_info.min.js?1455288555088"></script>
-	<script src="pages/root/config.min.js?1455288555088"></script>
-	<script src="pages/root/main.ctrl.min.js?1455288555088"></script>
-	<script src="pages/root/favorites.ctrl.min.js?1455288555088"></script>
-	<script src="pages/root/navigation.ctrl.min.js?1455288555088"></script>
-	<script src="pages/root/topsearch.ctrl.min.js?1455288555088"></script>
-	
-	<script src="pages/sumstat/module.js?1455288555088"></script>
-	<script src="pages/sumstat/list/controller.js?1455288555088"></script>
-	<script src="pages/sumstat/user_view/controller.js?1455288555088"></script>
+	<script src="build.min.js?1455552646870"></script>
 	
 </head>
 
@@ -63,16 +48,12 @@
 		<header class="ui-top">
 			<div class="clearfix">
 				<div class="col-sm-5 inline">
-					<ng-include
-						src="'pages/root/top_search.html'"
-						ng-controller="TopSearchCtrl"
-					></ng-include>
+					<ng-include src="'pages/root/top_search.html'"></ng-include>
 				</div>
 				<div class="col-sm-7 inline">
 					<ng-include
 						src="'pages/root/favorits.html'"
 						class="animation-left"
-						ng-controller="favoritesCtrl"
 					></ng-include>
 				</div>
 			</div>
@@ -89,13 +70,13 @@
 		<div ui-view class="animation-fade"></div>
 	</div>
 
-<!-- 	<div ng-if="!isAuthenticated">
+	<div ng-if="!isAuthenticated">
 		<ng-include 
 			src="'pages/auth/template.html'" 
 			class="animation-left"
 		></ng-include>
 	</div>
- -->
+
 </body>
 
 </html>

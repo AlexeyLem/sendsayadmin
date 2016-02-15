@@ -35,6 +35,7 @@ module.exports = (function(type) {
 
 			'filters/module.js',
 			'filters/pagination.js',
+			'filters/search.js',
 
 			'directives/tarif_info.js',
 
@@ -51,15 +52,18 @@ module.exports = (function(type) {
 
 	};
 
-	source.css  = [
+	source.css  = {
 
-		'libs/bootstrap/dist/css/bootstrap.css',
-		'libs/bootstrap/dist/css/bootstrap-theme.css',
-		// 'css/bootstrap-cerulean.min.css',
-		'css/animation.css',
-		'css/app.css'
+		'libs': [
+			'libs/bootstrap/dist/css/bootstrap.css',
+			'libs/bootstrap/dist/css/bootstrap-theme.css',
+		],
 
-	];
+		'app': [
+			'css/animation.css',
+			'css/app.css'
+		]
+	};
 
 	return source;
 

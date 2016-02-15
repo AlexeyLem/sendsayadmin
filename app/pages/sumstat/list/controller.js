@@ -6,6 +6,7 @@ function SumstatListCtrl($scope, $rootScope, $location, api, SumstatFavorites) {
     $scope.currentPage = $location.search().page || 1;
     $scope.sortType = $location.search().sortType || 'ID';
     $scope.sortReverse = $location.search().sortReverse || false;
+    $scope.search = $location.search().search || '';
 
     $scope.showAdvCols = {};
 
@@ -58,7 +59,7 @@ function SumstatListCtrl($scope, $rootScope, $location, api, SumstatFavorites) {
     
 
     // BEGIN Watchers & Listeners
-    /*
+    
     $scope.$watch('sortType', function() {
         $location.search('sortType', $scope.sortType);
     });
@@ -66,7 +67,12 @@ function SumstatListCtrl($scope, $rootScope, $location, api, SumstatFavorites) {
     $scope.$watch('sortReverse', function() {
         $location.search('sortReverse', $scope.sortReverse?1:null);
     });
-    */
+    
+    $scope.$on('topSearchChange', function(event, data) {
+        _log('FIRE: topSearchChange ...');
+        $scope.search = data;
+    });
+
     $rootScope.$on('changeUserList', function() {
         $scope.userCount = Object.keys($rootScope.userList).length;
     });

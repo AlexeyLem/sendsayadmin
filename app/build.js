@@ -26,7 +26,7 @@ function _log() {
 
 var App = angular.module("app", [
 
-	// 'app.auth',
+	'app.auth',
 	'app.sumstat',
 	'ui.bootstrap',
 	'ui.router',
@@ -59,6 +59,286 @@ var App = angular.module("app", [
 
 	}
 ]);
+var AppAuth = angular.module('app.auth', [
+    	'ui.router'
+])
+
+.run([
+	
+	'Auth',
+	'$rootScope',
+
+	function(AuthService,$rootScope) {
+		_log('AppAuth run ...');
+		$rootScope.isAuthenticated = AuthService.isAuthenticated();
+	}
+])
+
+.controller('AuthCtrl', [
+	
+	'$scope',
+	'$rootScope',
+	'Auth',
+
+	function($scope, $rootScope, AuthService) {
+		
+		$scope.loginModel = 'alexey';
+		$scope.passwordModel = '';
+
+		$scope.loginError = false;
+		$scope.passwordError = false;
+
+		$scope.Auth = function(event) {
+
+			_log('$scope.Auth Call ...', $scope.loginModel, $scope.passwordModel );
+			
+			var noErrors = true;
+
+			if($.trim($scope.loginModel) == '') {
+				noErrors = false;
+				$scope.loginError = true;
+			}
+
+			if($.trim($scope.passwordModel) == '') {
+				noErrors = false;
+				$scope.passwordError = true;
+			}
+
+			if(noErrors) {
+				
+				$scope.loginError = false;
+				$scope.passwordError = false;
+
+
+				AuthService.login({
+					'login': $.trim($scope.loginModel),
+					'password': $.trim($scope.passwordModel)
+				});
+			}
+
+		};
+
+		$scope.keyAuth = function(event) {
+
+			if(event.keyCode == 13) { // Enter
+				$scope.Auth();
+			}else if(event.keyCode == 27) { // Esc
+				// Something
+			}
+
+		};
+
+	}
+])
+
+.factory('Auth', [
+	'$http',
+	'$q',
+	'Api',
+
+	 function($http, $q, Api) {
+
+		var authenticatedUser = true;
+
+		return {
+			
+			isAuthenticated: function() {
+				return authenticatedUser;
+			},
+
+			login: function (inputs) {
+				
+				var deffered = $q.defer();
+
+				Api.login({
+					
+					login: inputs.login,
+					password: inputs.password
+				
+				}).success(function(data) {
+					_log('Auth login success Data:', data);
+					// authenticatedUser = inputs.login;
+					deffered.resolve(data);
+
+				}).error(function(data, status, header, config) {
+					
+					_log('Auth login error Data:', arguments);
+
+					deffered.reject(data);
+
+				});
+
+				return deffered.promise;
+			}
+		}
+
+	}
+]);
+App.factory('Api', ['$q', function($q) {
+	
+	var _apiUrl = 'https://test.sendsay.ru/admin/api/';
+
+	return {
+		
+		_prepeareRequest: function(request) {
+
+			return {
+				"request": JSON.stringify(request),
+	    		"apiversion": 100,
+	            "json": 1
+			};
+
+		},
+		
+		hasError: function(responce) {
+
+			return (isD(responce.errors) && responce.errors.length);
+		
+		},
+
+		request: function(request, options) {
+			
+			options = options || {};
+
+			// _log('Api.request DO ...');
+			
+			var self = this,
+				_deffered = $q.defer(),
+				_fullRequest = this._prepeareRequest(request),
+				ajaxSettings = {
+					/*
+					beforeSend: function (xhr) {
+					    xhr.setRequestHeader("Authorization", "Basic " + btoa("alexey:654174"));
+					},
+					*/
+					url: _apiUrl,
+
+					crossDomain: true,
+					// contentType: false,
+				    async: true,
+				    cache: false,
+				    dataType: 'json',
+
+					global: true,
+					
+					method: options.method || 'post',
+					data: _fullRequest,
+					
+					error: function(data) {
+
+						// Handler for Server or Network Errors 
+						_log('API ERROR: ', arguments);
+
+					},
+
+					success: function(data) {
+
+						if(self.hasError(data)) {
+							_deffered.reject(data);
+						}else{
+							_deffered.resolve(data);
+						}
+					
+					},
+
+					// "username": "alexey"
+				};
+
+			// _log("ajaxSettings:", ajaxSettings );
+
+			$.ajax(ajaxSettings);
+			
+			return _deffered.promise;
+
+			// return $http.post(_apiUrl+'api/', this._prepeareRequest(request));
+		
+		},
+
+		login: function(options) {
+			return $http({
+				method: 'POST',
+				url: _apiUrl +'api/', // '?AUTHLOGINadmin',
+				data: {
+					credential_0: options.login,
+					credential_1: options.password
+				}
+			});
+		}
+	};
+
+}])
+App.factory('SumstatFavorites', [
+
+	'$rootScope',
+	'localStorageService',
+
+	function($rootScope, localStorageService) {
+
+	var keyName = 'sumstatFavoriteUsers';
+
+	if(!localStorageService.get(keyName)) {
+		localStorageService.set(keyName,'');
+	}
+
+	var list = localStorageService.get(keyName).split(',') || [],
+		
+		saveList = function() {
+
+			localStorageService.set(keyName, list.join(','));
+		
+		},
+
+		service = {
+
+		'getList': function() {
+			
+			return list.slice(0);
+
+		},
+		
+		'Add': function(id) { // id
+
+			id = id || null;
+
+			if(typeof id !== 'object' && id && !this.inList(id)) {
+				
+				list.push(id);
+
+				saveList();
+
+				$rootScope.$broadcast('SumstatFavorites_Add', id);
+				$rootScope.$broadcast('SumstatFavorites_Change', list);
+			}
+
+		},
+
+		Remove: function(id) { // id
+			
+			id = id || null;
+
+			var index = $.inArray(id, list);
+
+			if(typeof id !== 'object' && id && index != -1) {
+
+				list.splice(index, 1);
+
+				saveList();
+
+				$rootScope.$broadcast('SumstatFavorites_Remove', id);
+				$rootScope.$broadcast('SumstatFavorites_Change', list);
+			}
+
+		},
+
+		inList: function(id) { // id
+			return ($.inArray(id, list)!=-1);
+		}
+
+	};
+
+	return service;
+
+}]);
 var AppFilters = angular.module('AppFilters', []);
 AppFilters.filter('sumstatPaginationFilter', function() {
     _log('sumstatpagination arguments:',arguments);
@@ -66,6 +346,315 @@ AppFilters.filter('sumstatPaginationFilter', function() {
     return items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage - 1);
     // return input ? '\u2713' : '\u2718';
   };
+});
+AppFilters.filter('searchFilter', function() {
+  
+	return function(items, search) {
+		
+		if(search=='') return items;
+
+		return _.filter(items, function(item) {
+			return (item.TITLE.indexOf(search) != -1 || item.ID.indexOf(search) != -1)? true: false;
+		});
+    // return input ? '\u2713' : '\u2718';
+	};
+
+});
+App.directive('tarifInfo', function() {
+
+	// Tarif adress database limit list
+var _TARIFS = {
+	'B': {
+		'name': 'Базовый',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'showChange': 0
+	},
+    'R': {
+		'name': 'Расширеный',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'N': {
+		'name': 'Начальный',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'O': {
+		'name': 'Оптимальный',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'P': {
+		'name': 'Профессиональный',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'E': {
+		'name': 'Эксперт',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'V': {
+		'name': 'Премиум',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'S': {
+		'name': 'Свои',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'F': {
+		'name': 'Старт',
+		'limit': {
+			'email': 200,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'U': {
+		'name': 'Т1',
+		'limit': {
+			'email': 2000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'Q': {
+		'name': 'Т2',
+		'limit': {
+			'email': 10000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'X': {
+		'name': 'Т3',
+		'limit': {
+			'email': 20000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'Y': {
+		'name': 'Т4',
+		'limit': {
+			'email': 35000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'Z': {
+		'name': 'Т5',
+		'limit': {
+			'email': 50000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'T': {
+		'name': 'Тестовый',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+	'trial': {
+		'name': 'Триал',
+		'limit': {
+			'email': null,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+	'B1': {
+		'name': 'Бизнес 1',
+		'id': 'Sendsay_B1_fee',
+		'limit': {
+			'email': 1000,
+			'sms': null
+		},
+		'price': 750,
+		'showChange': 1
+	},
+	'B2': {
+		'name': 'Бизнес 2',
+		'id': 'Sendsay_B2_fee',
+		'limit': {
+			'email': 2500,
+			'sms': null
+		},
+		'price': 1300,
+		'showChange': 1
+	},
+	'B5': {
+		'name': 'Бизнес 5',
+		'id': 'Sendsay_B5_fee',
+		'limit': {
+			'email': 5000,
+			'sms': null
+		},
+		'price': 2000,
+		'showChange': 1
+	},
+	'B10': {
+		'name': 'Бизнес 10',
+		'id': 'Sendsay_B10_fee',
+		'limit': {
+			'email': 10000,
+			'sms': null
+		},
+		'price': 3300,
+		'showChange': 1
+	},
+	'B25': {
+		'name': 'Бизнес 25',
+		'id': 'Sendsay_B25_fee',
+		'limit': {
+			'email': 25000,
+			'sms': null
+		},
+		'price': 6500,
+		'showChange': 1
+	},
+	'B50': {
+		'name': 'Бизнес 50',
+		'id': 'Sendsay_B50_fee',
+		'limit': {
+			'email': 50000,
+			'sms': null
+		},
+		'price': 10300,
+		'showChange': 1
+	},
+    'I': {
+		'name': 'Индивидуальный',
+		'limit': {
+			'email': 0,
+			'sms': null
+		},
+		'price': null,
+		'showChange': 1
+	},
+    
+    'T1': {
+		'name': 'Т1',
+		'limit': {
+			'email': 2000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'T2': {
+		'name': 'Т2',
+		'limit': {
+			'email': 10000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'T3': {
+		'name': 'Т3',
+		'limit': {
+			'email': 20000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'T4': {
+		'name': 'Т4',
+		'limit': {
+			'email': 35000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	},
+    'T5': {
+		'name': 'Т5',
+		'limit': {
+			'email': 50000,
+			'sms': null
+		},
+		'price': 0,
+		'showChange': 0
+	}
+};
+
+
+	// Runs during compile
+	return {
+		// name: '',
+		// priority: 1,
+		// terminal: true,
+		scope: {}, // {} = isolate, true = child, false/undefined = no change
+		// controller: function($scope, $element, $attrs, $transclude) {},
+		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+		// template: '{{name}}',
+		// templateUrl: '',
+		replace: true,
+		// transclude: true,
+		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+		link: function($scope, iElm, iAttrs, controller) {
+			var code = iAttrs.code || false,
+				option = iAttrs.option || 'name';
+			/*
+			if(angular.isUndefined(_TARIFS[code]) || angular.isUndefined(_TARIFS[code][option])) {
+				iElm.text('Unknown');
+				return ;
+			}
+			*/
+
+			_log(code, option);
+
+			iElm.text(_.get(_TARIFS, [ code, option ], 'Unknown'));	
+		
+		}
+	};
 });
 App.config([
 
@@ -101,13 +690,13 @@ App.controller('MainCtrl', [
 	'$rootScope',
 	'$state',
 	'$stateParams',
-	// 'Auth',
+	'Auth',
 	'localStorageService',
 
-	function($rootScope, $state, $stateParams, localStorageService) {
+	function($rootScope, $state, $stateParams, Auth, localStorageService) {
 
 		$rootScope.windowTitle = "MyFirst Page in Angular";
-	    // $rootScope.isAuthenticated = Auth.isAuthenticated();
+	    //$rootScope.isAuthenticated = Auth.isAuthenticated();
 
 }]);
 App.controller('favoritesCtrl', [
@@ -117,7 +706,7 @@ App.controller('favoritesCtrl', [
     'SumstatFavorites',
 
     function ($scope, $rootScope, SumstatFavorites) {
-/*
+
         $rootScope.sumstatFavoriteUsers = SumstatFavorites.getList();
 
         $rootScope.isFavoriteUser = function(id) {
@@ -150,7 +739,7 @@ App.controller('favoritesCtrl', [
 
         };
 
-*/
+
         _log('favoritesCtrl ...');
     }
 ]);
@@ -217,7 +806,7 @@ App.controller('TopSearchCtrl', [
     '$rootScope',
     '$location',
     function($scope, $state, $rootScope, $location) {
-/*
+
 	$scope.searchlist = [
 		{
 			'name': 'chrights',
@@ -240,7 +829,12 @@ App.controller('TopSearchCtrl', [
 	};
 
 	$scope.$watch('searchInput', function(data) {
+
 		_log('searchInput', data);
+
+		$location.search('search', data);
+		$rootScope.$broadcast('topSearchChange', data);
+	
 	});
 
     $scope.searchSection = 0;
@@ -250,7 +844,7 @@ App.controller('TopSearchCtrl', [
         event.preventDefault();
         _log('setSection arguments:', arguments);
     };
-*/
+
 }])
  var AppSumstat = angular.module('app.sumstat', [
 	'ui.router',
@@ -268,78 +862,76 @@ App.controller('TopSearchCtrl', [
     function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider) {
 
     	_log('app.sumstat config ...');
+    	
     	$stateProvider
 	    	.state('sumstat', {
 	    		abstract: true,
 				url: '/sumstat',
 	    		template: '<div class="ui-main-conteiner" ui-view></div>',
-	    		resolve:  [
-	    			
-	    			"$q",
-	                "$rootScope",
-	                "$state",
-	                "$stateParams",
-	                // "Api",
+	    		resolve:  {
+	    			"data": [
 
-	                function ($q, $rootScope, $state, $stateParams) {
-	                	/*
-	                	var deferred = $q.defer();
+		    			"$q",
+		                "$rootScope",
+		                "Api",
 
-	                	_log('AppSumstat base state resolve ... ');
+		                function ($q, $rootScope, Api) {
+		                	
+		                	var deferred = $q.defer();
 
-				        $rootScope.userList = [];
-	                   	$rootScope.userList_keyLink = {};
-	                    $rootScope.activeUsers = [];
-	                    $rootScope.blockedUsers = [];
-						
-	                    var _listHandler = function(data) {
+		                	_log('AppSumstat base state resolve ... ');
 
-	                    	_log('Api Request:', data);
+					        $rootScope.userList = [];
+		                   	$rootScope.userList_keyLink = {};
+		                    $rootScope.activeUsers = [];
+		                    $rootScope.blockedUsers = [];
+							
+		                    var _listHandler = function(data) {
 
-	                    	var len = Object.keys(data.list).length,
-	                    		uList = [];
+		                    	_log('Api Request:', data);
 
-	                    	$rootScope.userCount = len;
+		                    	var len = Object.keys(data.list).length,
+		                    		uList = [];
 
-	                    	_log('$rootScope.userCount: '+ Object.keys(data.list).length);
+		                    	$rootScope.userCount = len;
 
-	                    	if(data.list && len) {
+		                    	_log('$rootScope.userCount: ' + Object.keys(data.list).length);
 
-	                    		for(var key in data.list) {
-	                    			
-	                    			var user = data.list[key];
-	                    			
-	                    			$rootScope.userList_keyLink[key] = uList.push(user) -1;
+		                    	if(data.list && len) {
 
-		                            if (user.BLOCKED=="0") {
-		                                $rootScope.blockedUsers.push(user.ID);
-		                            }else{
-		                                $rootScope.activeUsers.push(user.ID);
-		                            }
-	                    		}
+		                    		for(var key in data.list) {
+		                    			
+		                    			var user = data.list[key];
+		                    			
+		                    			$rootScope.userList_keyLink[key] = uList.push(user) - 1;
 
-	                    		$rootScope.userList = uList;
+			                            if (user.BLOCKED=="0") {
+			                                $rootScope.blockedUsers.push(user.ID);
+			                            }else{
+			                                $rootScope.activeUsers.push(user.ID);
+			                            }
+		                    		}
 
-	                    	}
+		                    		$rootScope.userList = uList;
 
-	                    	$rootScope.$emit('changeUserList');
+		                    	}
 
-	                        deferred.resolve();
-		                
-		                };
+		                    	$rootScope.$emit('changeUserList');
 
-						_log('Api.request ...', Api);
+		                        deferred.resolve();
+			                
+			                };
 
-						Api.request({
+							_log('Api.request ...', Api);
 
-	                    	"action": "account.sumstat"
-	                    
-	                    }).then(_listHandler);
-						
-	                    return deferred.promise;
-	                */
-	                }
-	            ]
+							Api.request({
+		                    	"action": "account.sumstat"
+		                    }).then(_listHandler);
+							
+		                    return deferred.promise;
+		                }
+		            ]
+		        }
 	    	})
 	    	
 	    	.state('sumstat.list', {
@@ -371,12 +963,13 @@ App.controller('TopSearchCtrl', [
 
 (function() {
 
-function SumstatListCtrl($scope, $rootScope, $location ) { // 
-/*
+function SumstatListCtrl($scope, $rootScope, $location, api, SumstatFavorites) {
+
     $scope.userCount = $rootScope.userList.length;
     $scope.currentPage = $location.search().page || 1;
     $scope.sortType = $location.search().sortType || 'ID';
     $scope.sortReverse = $location.search().sortReverse || false;
+    $scope.search = $location.search().search || '';
 
     $scope.showAdvCols = {};
 
@@ -426,10 +1019,10 @@ function SumstatListCtrl($scope, $rootScope, $location ) { //
     };
 
     // END Functions
-    */
+    
 
     // BEGIN Watchers & Listeners
-    /*
+    
     $scope.$watch('sortType', function() {
         $location.search('sortType', $scope.sortType);
     });
@@ -438,10 +1031,15 @@ function SumstatListCtrl($scope, $rootScope, $location ) { //
         $location.search('sortReverse', $scope.sortReverse?1:null);
     });
     
+    $scope.$on('topSearchChange', function(event, data) {
+        _log('FIRE: topSearchChange ...');
+        $scope.search = data;
+    });
+
     $rootScope.$on('changeUserList', function() {
         $scope.userCount = Object.keys($rootScope.userList).length;
     });
-    */
+    
     // END Watchers & Listeners
 }
 
@@ -450,8 +1048,8 @@ AppSumstat
         '$scope',
         '$rootScope',
         '$location',
-        // 'Api',
-        //'SumstatFavorites',
+        'Api',
+        'SumstatFavorites',
         SumstatListCtrl
     ]);
 
@@ -466,7 +1064,7 @@ AppSumstat
     '$location',
 
     function ($scope, $rootScope, $stateParams, $location) {
-    	/*
+    	
         _log('$stateParams.userId: ' + $stateParams.userId);
         
         var userIndex = $rootScope.userList_keyLink[$stateParams.userId];
@@ -480,5 +1078,5 @@ AppSumstat
 	    	.replace(/\,/ig,",\n")
 	    	.replace(/\{/ig,"{\n")
 	    	.replace(/\}/ig,"\n}");
-	    */
+	    
     }]);

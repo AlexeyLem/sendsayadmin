@@ -1,28 +1,19 @@
-AppSumstat
-.controller('SumstatUserViewCtrl', [
-    
-    '$scope',
-    '$rootScope',
-    '$stateParams',
-    '$location',
+(function() {
 
-    function ($scope, $rootScope, $stateParams, $location) {
-    	
-        _log('$stateParams.userId: ' + $stateParams.userId);
-        
-        var userIndex = $rootScope.userList_keyLink[$stateParams.userId];
+function SumstatListCtrl($scope, $rootScope, $location, api, SumstatFavorites) {
 
-	    $scope.user = $rootScope.userList[userIndex];
+    $scope.userCount = $rootScope.userList.length;
+    $scope.currentPage = $location.search().page || 1;
+    $scope.sortType = $location.search().sortType || 'ID';
+    $scope.sortReverse = $location.search().sortReverse || false;
 
-        _log('$scope.user: ', _.extend({}, $scope.user));
+    $scope.showAdvCols = {};
 
-        
-	    $scope.userJSON = JSON.stringify($scope.user)
-	    	.replace(/\,/ig,",\n")
-	    	.replace(/\{/ig,"{\n")
-	    	.replace(/\}/ig,"\n}");
-	    
-    }]);: 'Адрес', 'checked': 0 },
+    $scope.tableCols = [
+        { key: 'manager', name: 'Менеджер', 'checked': 0 },
+        { key: 'seller', name: 'Продавец', 'checked': 0 },
+        { key: 'tarif', name: 'Тариф', 'checked': 0 },
+        { key: 'adress', name: 'Адрес', 'checked': 0 },
         { key: 'lastIssue', name: 'Последний выпуск', 'checked': 0 },
         { key: 'memberCount', name: 'Адресов в базе', 'checked': 0 }
     ];

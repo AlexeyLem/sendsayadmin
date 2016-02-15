@@ -4,7 +4,7 @@ App.controller('TopSearchCtrl', [
     '$rootScope',
     '$location',
     function($scope, $state, $rootScope, $location) {
-/*
+
 	$scope.searchlist = [
 		{
 			'name': 'chrights',
@@ -27,7 +27,12 @@ App.controller('TopSearchCtrl', [
 	};
 
 	$scope.$watch('searchInput', function(data) {
+
 		_log('searchInput', data);
+
+		$location.search('search', data);
+		$rootScope.$broadcast('topSearchChange', data);
+	
 	});
 
     $scope.searchSection = 0;
@@ -37,5 +42,5 @@ App.controller('TopSearchCtrl', [
         event.preventDefault();
         _log('setSection arguments:', arguments);
     };
-*/
+
 }])
